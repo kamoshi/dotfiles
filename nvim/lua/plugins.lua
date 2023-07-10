@@ -8,6 +8,10 @@ return {
     config = require "configs/lspconfig",
   },
   {
+    "simrat39/rust-tools.nvim",
+    config = require "configs/rust-tools",
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     config = require "configs/treesitter",
     build = ":TSUpdate",
