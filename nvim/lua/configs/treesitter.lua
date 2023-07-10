@@ -16,6 +16,8 @@ return function()
       "markdown",
       -- nix
       "nix",
+      -- haskell
+      "haskell",
       -- latex
       "latex", "bibtex",
       -- misc

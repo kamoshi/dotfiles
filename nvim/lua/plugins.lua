@@ -4,6 +4,14 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
   },
   {
+    "nvim-treesitter/nvim-treesitter",
+    config = require "configs/treesitter",
+    build = ":TSUpdate",
+    init = function()
+      vim.treesitter.language.register("markdown", "mdx")
+    end
+  },
+  {
     "neovim/nvim-lspconfig",
     config = require "configs/lspconfig",
   },
@@ -12,12 +20,12 @@ return {
     config = require "configs/rust-tools",
   },
   {
-    "nvim-treesitter/nvim-treesitter",
-    config = require "configs/treesitter",
-    build = ":TSUpdate",
-    init = function()
-      vim.treesitter.language.register("markdown", "mdx")
-    end
+    "mrcjkb/haskell-tools.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    branch = "1.x.x",
   },
   {
     "andweeb/presence.nvim",
