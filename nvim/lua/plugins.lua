@@ -99,6 +99,7 @@ return {
         automatic_installation = true,
         ensure_installed = {
           "rust_analyzer",  -- Rust
+          "hls",            -- Haskell
           "tsserver",       -- TypeScript
           "astro",          -- Astro
           "svelte",         -- Svelte
@@ -117,7 +118,7 @@ return {
       require("mason-nvim-dap").setup({
         automatic_installation = true,
         ensure_installed = {
-          "codelldb",
+          "codelldb",       -- Rust
         },
       })
     end,
@@ -140,11 +141,28 @@ return {
     },
     branch = "1.x.x",
   },
+  -- File tree
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+  },
+  -- Diff view
+  {
+    "sindrets/diffview.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  },
   -- Discord presence
   {
     "andweeb/presence.nvim",
     config = function()
-      local configs = require("presence").setup({
+      require("presence").setup({
         main_image = "file",
         buttons = false,
         show_time = false,

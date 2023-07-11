@@ -13,9 +13,7 @@ return function()
     settings = {
       Lua = {
         diagnostics = {
-          globals = {
-            "vim"
-          }
+          globals = { "vim" }
         }
       }
     },
