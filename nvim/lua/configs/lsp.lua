@@ -1,4 +1,4 @@
-return function() 
+return function()
   local configs = require("lspconfig")
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -7,13 +7,24 @@ return function()
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, buf_opts)
   end
 
-  configs.tsserver.setup({
-    on_attach = on_attach,
+  configs.lua_ls.setup({
     capabilities = capabilities,
-  })
-  configs.astro.setup({
     on_attach = on_attach,
-    capabilities = capabilities,
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = {
+            "vim"
+          }
+        }
+      }
+    },
   })
+
+  local opts = { on_attach = on_attach, capabilities = capabilities }
+
+  configs.tsserver.setup(opts)
+  configs.astro.setup(opts)
+  configs.svelte.setup(opts)
 end
 

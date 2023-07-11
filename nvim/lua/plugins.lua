@@ -47,7 +47,7 @@ return {
   -- LSP Configs
   {
     "neovim/nvim-lspconfig",
-    config = require "configs/lspconfig",
+    config = require "configs/lsp",
   },
   -- Snippet engine
   {
@@ -98,7 +98,11 @@ return {
       require("mason-lspconfig").setup({
         automatic_installation = true,
         ensure_installed = {
-          "rust_analyzer",
+          "rust_analyzer",  -- Rust
+          "tsserver",       -- TypeScript
+          "astro",          -- Astro
+          "svelte",         -- Svelte
+          "lua_ls",         -- Lua
         },
       })
     end,

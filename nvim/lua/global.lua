@@ -13,7 +13,8 @@ opt.number = true
 
 vim.filetype.add({
   extension = {
-    mdx = "mdx"
+    mdx = "mdx",
+    typ = "typst",
   }
 })
 
