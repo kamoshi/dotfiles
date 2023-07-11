@@ -70,6 +70,58 @@ return {
   {
     "hrsh7th/cmp-nvim-lsp",
   },
+  -- DAP
+  {
+    "mfussenegger/nvim-dap",
+    config = function()
+      local dap = require "dap"
+      vim.keymap.set('n', "<leader>b", dap.toggle_breakpoint)
+    end,
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    config = require "configs/debugging",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+    },
+  },
+  -- Mason
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end,
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function()
+      require("mason-lspconfig").setup({
+        automatic_installation = true,
+        ensure_installed = {
+          "rust_analyzer",
+        },
+      })
+    end,
+    dependencies = {
+      "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig",
+    },
+  },
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    config = function()
+      require("mason-nvim-dap").setup({
+        automatic_installation = true,
+        ensure_installed = {
+          "codelldb",
+        },
+      })
+    end,
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "williamboman/mason.nvim",
+    },
+  },
   -- Rust tools
   {
     "simrat39/rust-tools.nvim",
