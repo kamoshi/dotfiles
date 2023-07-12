@@ -108,6 +108,7 @@ return {
           "svelte",         -- Svelte
           "pyright",        -- Python
           "typst_lsp",      -- Typst
+          "rnix",           -- Nix
         },
       })
 
@@ -180,12 +181,18 @@ return {
       "MunifTanjim/nui.nvim",
     },
   },
-  -- Diff view
+  -- Git
   {
     "sindrets/diffview.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
+  },
+  {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require("gitsigns").setup()
+    end,
   },
   -- Discord presence
   {

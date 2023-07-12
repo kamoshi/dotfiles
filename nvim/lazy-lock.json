@@ -6,6 +6,7 @@
   "cmp-path": { "branch": "main", "commit": "91ff86cd9c29299a64f968ebb45846c485725f23" },
   "cmp_luasnip": { "branch": "master", "commit": "18095520391186d634a0045dacaa346291096566" },
   "diffview.nvim": { "branch": "main", "commit": "b0cc22f5708f6b2b4f873b44fbc5eb93020f4e0c" },
+  "gitsigns.nvim": { "branch": "main", "commit": "48c3ae8ec74cb83f9570ceb0c5ab8217db7a2220" },
   "haskell-tools.nvim": { "branch": "1.x.x", "commit": "2c8cb26417cb4ce6f4271efb72578576464a5424" },
   "kanagawa.nvim": { "branch": "master", "commit": "1749cea392acb7d1548a946fcee1e6f1304cd3cb" },
   "lazy.nvim": { "branch": "main", "commit": "da8b00581a52f5f87ad2aba9f52171fda7491f18" },
@@ -25,6 +26,5 @@
   "presence.nvim": { "branch": "main", "commit": "87c857a56b7703f976d3a5ef15967d80508df6e6" },
   "rust-tools.nvim": { "branch": "master", "commit": "0cc8adab23117783a0292a0c8a2fbed1005dc645" },
   "telescope.nvim": { "branch": "master", "commit": "276362a8020c6e94c7a76d49aa00d4923b0c02f3" },
-  "tree-sitter-typst": { "branch": "main", "commit": "2e66ef4b798a26f0b82144143711f3f7a9e8ea35" },
   "typst.vim": { "branch": "main", "commit": "5c1a933d6e8178d8d2596165b1709a7605b26d11" }
 }
