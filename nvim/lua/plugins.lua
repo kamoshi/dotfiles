@@ -29,8 +29,8 @@ return {
           "nix",
           -- haskell
           "haskell",
-          -- latex
-          "latex", "bibtex",
+          -- literate
+          "latex", "bibtex", -- "typst",
           -- misc
           "gitignore", "diff", "dockerfile", "json", "yaml", "regex",
         },
@@ -44,10 +44,9 @@ return {
       vim.treesitter.language.register("markdown", "mdx")
     end,
   },
-  -- LSP Configs
+  -- LSP
   {
     "neovim/nvim-lspconfig",
-    config = require "configs/lsp",
   },
   -- Snippet engine
   {
@@ -95,16 +94,41 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     config = function()
-      require("mason-lspconfig").setup({
+      local mason = require "mason-lspconfig"
+      mason.setup({
         automatic_installation = true,
         ensure_installed = {
+          "lua_ls",         -- Lua
           "rust_analyzer",  -- Rust
           "hls",            -- Haskell
+          "html",           -- HTML
+          "cssls",          -- CSS / SCSS
           "tsserver",       -- TypeScript
           "astro",          -- Astro
           "svelte",         -- Svelte
-          "lua_ls",         -- Lua
+          "pyright",        -- Python
+          "typst_lsp",      -- Typst
         },
+      })
+
+      local lsp = require "lspconfig"
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      mason.setup_handlers({
+        function(server)
+          lsp[server].setup({
+            single_file_support = true,
+            capabilities = capabilities,
+          })
+        end,
+        ["lua_ls"] = function()
+          lsp.lua_ls.setup({
+            single_file_support = true,
+            capabilities = capabilities,
+            settings = {
+              Lua = { diagnostics = { globals = { "vim" } } }
+            },
+          })
+        end,
       })
     end,
     dependencies = {
@@ -140,6 +164,11 @@ return {
       "nvim-telescope/telescope.nvim",
     },
     branch = "1.x.x",
+  },
+  -- Typst
+  {
+    "kaarmu/typst.vim",
+    ft = "typst",
   },
   -- File tree
   {

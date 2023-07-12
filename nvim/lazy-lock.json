@@ -19,10 +19,12 @@
   "nvim-dap": { "branch": "master", "commit": "3bde6f786057fa29d8356559b2ae3a52d9317fba" },
   "nvim-dap-ui": { "branch": "master", "commit": "c020f660b02772f9f3d11f599fefad3268628a9e" },
   "nvim-lspconfig": { "branch": "master", "commit": "deade69789089c3da15237697156334fb3e943f0" },
-  "nvim-treesitter": { "branch": "master", "commit": "f2efc5f35743b8383a1b50f727faae94658506d5" },
+  "nvim-treesitter": { "branch": "master", "commit": "b4b94ec387525cb9df4b56eb1a8bf33231a0df47" },
   "nvim-web-devicons": { "branch": "master", "commit": "9ab9b0b894b2388a9dbcdee5f00ce72e25d85bf9" },
   "plenary.nvim": { "branch": "master", "commit": "bda256fab0eb66a15e8190937e417e6a14ee5d72" },
   "presence.nvim": { "branch": "main", "commit": "87c857a56b7703f976d3a5ef15967d80508df6e6" },
-  "rust-tools.nvim": { "branch": "master", "commit": "71d2cf67b5ed120a0e31b2c8adb210dd2834242f" },
-  "telescope.nvim": { "branch": "master", "commit": "276362a8020c6e94c7a76d49aa00d4923b0c02f3" }
+  "rust-tools.nvim": { "branch": "master", "commit": "0cc8adab23117783a0292a0c8a2fbed1005dc645" },
+  "telescope.nvim": { "branch": "master", "commit": "276362a8020c6e94c7a76d49aa00d4923b0c02f3" },
+  "tree-sitter-typst": { "branch": "main", "commit": "2e66ef4b798a26f0b82144143711f3f7a9e8ea35" },
+  "typst.vim": { "branch": "main", "commit": "5c1a933d6e8178d8d2596165b1709a7605b26d11" }
 }
