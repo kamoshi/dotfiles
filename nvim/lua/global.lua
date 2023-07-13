@@ -26,6 +26,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function()
     local buf_opts = { noremap = true, silent = true, buffer = true }
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, buf_opts)
+    vim.keymap.set('n', "<space>rn", vim.lsp.buf.rename, buf_opts)
   end
 })
 
