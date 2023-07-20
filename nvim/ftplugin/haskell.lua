@@ -1,8 +1,9 @@
 local ht = require('haskell-tools')
 local def_opts = { noremap = true, silent = true, }
+
 ht.start_or_attach {
   hls = {
-    on_attach = function(client, bufnr)
+    on_attach = function(_, bufnr)
       local opts = vim.tbl_extend('keep', def_opts, { buffer = bufnr, })
       -- haskell-language-server relies heavily on codeLenses,
       -- so auto-refresh (see advanced configuration) is enabled by default

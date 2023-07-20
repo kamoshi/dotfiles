@@ -100,7 +100,7 @@ return {
         ensure_installed = {
           "lua_ls",         -- Lua
           "rust_analyzer",  -- Rust
-          "hls",            -- Haskell
+          -- "hls",         -- use GHCup instead
           "html",           -- HTML
           "cssls",          -- CSS / SCSS
           "tsserver",       -- TypeScript
