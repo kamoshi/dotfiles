@@ -22,6 +22,17 @@ return {
     end,
   },
 
+  -- File tree
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+  },
+
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
@@ -35,6 +46,24 @@ return {
       vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
       vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
       vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+    end,
+  },
+
+  -- Git diffviewer
+  {
+    "sindrets/diffview.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+  },
+
+  -- Git signs
+  {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      local gitsigns = require("gitsigns")
+      gitsigns.setup()
     end,
   },
 
@@ -103,149 +132,131 @@ return {
 
   -- Snippet engine
   {
-    "saadparwaiz1/cmp_luasnip",
-    dependencies = {
-      "L3MON4D3/LuaSnip",
-    }
+    "L3MON4D3/LuaSnip",
+    version = "2.*",
   },
+
   -- Completion
   {
     "hrsh7th/nvim-cmp",
-    config = require "configs/cmp",
     dependencies = {
       "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lsp",
       "saadparwaiz1/cmp_luasnip",
     },
+    config = require("configs/cmp"),
   },
-  {
-    "hrsh7th/cmp-nvim-lsp",
-  },
-  -- DAP
+
+  -- Debugger adapter support
   {
     "mfussenegger/nvim-dap",
     config = function()
-      local dap = require "dap"
+      local dap = require("dap")
       vim.keymap.set('n', "<leader>b", dap.toggle_breakpoint)
     end,
   },
+
+  -- Debugger UI
   {
     "rcarriga/nvim-dap-ui",
-    config = require "configs/debugging",
+    config = require("configs/debugging"),
     dependencies = {
       "mfussenegger/nvim-dap",
     },
   },
+
   -- Mason
   {
     "williamboman/mason.nvim",
     config = function()
-      require("mason").setup()
+      local mason = require("mason")
+      mason.setup()
     end,
   },
+
+  -- Automatic language server install
   {
     "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig",
+    },
     config = function()
-      local mason = require "mason-lspconfig"
-      mason.setup({
+      local config = require("mason-lspconfig")
+      config.setup({
         automatic_installation = true,
+        -- NOTE
+        -- Haskell: Use GHCup installation instead of hls
         ensure_installed = {
           "lua_ls",         -- Lua
           "rust_analyzer",  -- Rust
-          -- "hls",         -- use GHCup instead
           "html",           -- HTML
           "cssls",          -- CSS / SCSS
           "tsserver",       -- TypeScript
           "astro",          -- Astro
           "svelte",         -- Svelte
           "pyright",        -- Python
-          "typst_lsp",      -- Typst
           "rnix",           -- Nix
         },
       })
 
-      local lsp = require "lspconfig"
+      local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      mason.setup_handlers({
+      config.setup_handlers({
         function(server)
-          lsp[server].setup({
+          lspconfig[server].setup({
             single_file_support = true,
             capabilities = capabilities,
           })
         end,
         ["lua_ls"] = function()
-          lsp.lua_ls.setup({
+          lspconfig.lua_ls.setup({
             single_file_support = true,
             capabilities = capabilities,
-            settings = {
-              Lua = { diagnostics = { globals = { "vim" } } }
-            },
+            settings = { Lua = { diagnostics = { globals = { "vim" } } } },
           })
         end,
       })
     end,
-    dependencies = {
-      "williamboman/mason.nvim",
-      "neovim/nvim-lspconfig",
-    },
   },
+
+  -- Automatic debugger install
   {
     "jay-babu/mason-nvim-dap.nvim",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "williamboman/mason.nvim",
+    },
     config = function()
-      require("mason-nvim-dap").setup({
+      local config = require("mason-nvim-dap")
+      config.setup({
         automatic_installation = true,
         ensure_installed = {
           "codelldb",       -- Rust
         },
       })
     end,
-    dependencies = {
-      "mfussenegger/nvim-dap",
-      "williamboman/mason.nvim",
-    },
   },
-  -- Rust tools
+
+  -- Tools for Rust
   {
     "simrat39/rust-tools.nvim",
-    config = require "configs/rust-tools",
+    ft = "rust",
+    config = require("configs/rust-tools"),
   },
-  -- Haskell tools
+
+  -- Tools for Haskell
   {
     "mrcjkb/haskell-tools.nvim",
+    branch = "1.x.x",
+    ft = "haskell",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
     },
-    branch = "1.x.x",
   },
-  -- Typst
-  {
-    "kaarmu/typst.vim",
-    ft = "typst",
-  },
-  -- File tree
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-  },
-  -- Git
-  {
-    "sindrets/diffview.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-  },
-  {
-    "lewis6991/gitsigns.nvim",
-    config = function()
-      require("gitsigns").setup()
-    end,
-  },
+
 }
 
