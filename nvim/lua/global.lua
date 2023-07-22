@@ -11,6 +11,18 @@ opt.expandtab = true
 -- Line numbers
 opt.number = true
 
+-- Helper punctuation
+vim.opt.list = true
+vim.opt.listchars = {
+  trail = '·',
+  nbsp = '␣',
+  tab = '→→',
+}
+
+-- Trailing whitespace
+vim.fn.matchadd("errorMsg", [[\s\+$]])
+vim.api.nvim_create_autocmd("BufWritePre", { command = [[%s/\s\+$//e]] })
+
 vim.filetype.add({
   extension = {
     mdx = "mdx",
@@ -18,17 +30,6 @@ vim.filetype.add({
   }
 })
 
--- LSP hotkeys
-local cmds_lsp = vim.api.nvim_create_augroup("cmds_lsp", { clear = true })
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = cmds_lsp,
-  desc = "LSP actions",
-  callback = function()
-    local buf_opts = { noremap = true, silent = true, buffer = true }
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, buf_opts)
-    vim.keymap.set('n', "<space>rn", vim.lsp.buf.rename, buf_opts)
-  end
-})
 
 -- Workaround: https://github.com/neovim/neovim/issues/21856
 vim.api.nvim_create_autocmd({ "VimLeave" }, {

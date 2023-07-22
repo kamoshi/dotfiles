@@ -128,6 +128,7 @@ return {
     "neovim/nvim-lspconfig",
     -- TODO: config here
     -- https://github.com/neovim/nvim-lspconfig#suggested-configuration
+    config = require("configs/lsp"),
   },
 
   -- Snippet engine
