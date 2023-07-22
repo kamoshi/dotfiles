@@ -1,53 +1,106 @@
 return {
+
+  -- Editor theme
+  {
+    "rebelot/kanagawa.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd("colorscheme kanagawa")
+    end,
+  },
+
+  -- Status line
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      local lualine = require("lualine")
+      lualine.setup()
+    end,
+  },
+
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
+    branch = "0.1.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
+    config = function()
+      local builtin = require('telescope.builtin')
+      vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+      vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+      vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+      vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+    end,
   },
+
+  -- Discord presence
+  {
+    "andweeb/presence.nvim",
+    config = function()
+      local presence = require("presence")
+      presence.setup({
+        main_image = "file",
+        buttons = false,
+        show_time = false,
+      })
+    end,
+  },
+
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
     config = function()
       local configs = require("nvim-treesitter.configs");
       configs.setup({
+        sync_install = false,
         ensure_installed = {
           -- nvim
           "vim", "vimdoc", "lua",
+          -- misc
+          "comment", "gitignore", "diff", "dockerfile", "json", "yaml", "toml", "regex",
           -- shell
-          "bash", "fish", -- "nu",
-          -- rust
-          "rust", "toml",
-          -- python
-          "python",
-          -- webdev
-          "html", "css", "scss", "javascript", "jsdoc", "typescript", "tsx", "astro", "svelte", "vue",
+          "bash", -- "fish", "nu",
           -- markdown
           "markdown", "markdown_inline",
-          -- nix
-          "nix",
+          -- python
+          "python",
+          -- rust
+          "rust", "toml",
+          -- webdev
+          "html", "css", "scss", "javascript", "jsdoc", "typescript", "tsx", "astro", "svelte", "vue",
           -- haskell
           "haskell",
+          -- nix
+          "nix",
           -- literate
           "latex", "bibtex", -- "typst",
-          -- misc
-          "gitignore", "diff", "dockerfile", "json", "yaml", "regex",
         },
-        sync_install = false,
-        highlight = { enable = true },
-        indent = { enable = true },
+        highlight = {
+          enable = true,
+        },
+        indent = {
+          enable = true,
+        },
       })
     end,
-    build = ":TSUpdate",
     init = function()
       vim.treesitter.language.register("markdown", "mdx")
     end,
   },
-  -- LSP
+
+  -- LS configs
   {
     "neovim/nvim-lspconfig",
+    -- TODO: config here
+    -- https://github.com/neovim/nvim-lspconfig#suggested-configuration
   },
+
   -- Snippet engine
   {
     "saadparwaiz1/cmp_luasnip",
@@ -194,34 +247,5 @@ return {
       require("gitsigns").setup()
     end,
   },
-  -- Discord presence
-  {
-    "andweeb/presence.nvim",
-    config = function()
-      require("presence").setup({
-        main_image = "file",
-        buttons = false,
-        show_time = false,
-      })
-    end,
-  },
-  -- Status line
-  {
-    "nvim-lualine/lualine.nvim",
-    config = function()
-      local config = require("lualine")
-      config.setup({})
-    end,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-  },
-  -- Editor theme
-  {
-    "rebelot/kanagawa.nvim",
-    init = function()
-      vim.cmd("colorscheme kanagawa")
-    end,
-  }
 }
 
