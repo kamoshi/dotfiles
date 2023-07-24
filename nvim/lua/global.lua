@@ -20,7 +20,7 @@ vim.opt.listchars = {
 }
 
 -- Trailing whitespace
-vim.fn.matchadd("errorMsg", [[\s\+$]])
+-- vim.fn.matchadd("errorMsg", [[\s\+$]])
 vim.api.nvim_create_autocmd("BufWritePre", { command = [[%s/\s\+$//e]] })
 
 vim.filetype.add({
@@ -34,7 +34,8 @@ vim.filetype.add({
 -- Workaround: https://github.com/neovim/neovim/issues/21856
 vim.api.nvim_create_autocmd({ "VimLeave" }, {
   callback = function()
-    vim.fn.jobstart('notify-send "hello"', {detach=true})
+    -- vim.fn.jobstart('notify-send "hello"', {detach=true})
+    vim.cmd([[sleep 10m]])
   end,
 })
 
