@@ -17,11 +17,9 @@ colorize() {
 }
 
 PS1='['
-PS1+=$(colorize '92m' '\u')
-PS1+='@'
-PS1+=$(colorize '92m' '\h')
+PS1+=$(colorize '92m' '\u@\h')
 PS1+=':'
-PS1+=$(colorize '94m' '\W')
+PS1+=$(colorize '94m' '\w')
 PS1+=']'
 PS1+=$(colorize '93m' '$(parse_git_branch)')
 PS1+='\$ '
