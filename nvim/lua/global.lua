@@ -11,6 +11,9 @@ opt.expandtab = true
 -- Line numbers
 opt.number = true
 
+-- Clipboard
+opt.clipboard = "unnamedplus"
+
 -- Helper punctuation
 vim.opt.list = true
 vim.opt.listchars = {
