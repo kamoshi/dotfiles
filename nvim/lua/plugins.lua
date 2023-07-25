@@ -200,6 +200,7 @@ return {
           "svelte",         -- Svelte
           "pyright",        -- Python
           "rnix",           -- Nix
+          "ltex",        -- Literate - LaTeX, Markdown, etc.
         },
       })
 

@@ -2,6 +2,9 @@ local g = vim.g
 local o = vim.o
 local opt = vim.opt
 
+-- Debug
+-- vim.lsp.set_log_level('debug')
+
 -- Indentation
 opt.tabstop = 2
 opt.smartindent = true
