@@ -25,6 +25,9 @@ vim.opt.listchars = {
   tab = '→→',
 }
 
+-- Neovide
+g.neovide_scale_factor = 0.75
+
 -- Trailing whitespace
 -- vim.fn.matchadd("errorMsg", [[\s\+$]])
 vim.api.nvim_create_autocmd("BufWritePre", { command = [[%s/\s\+$//e]] })
