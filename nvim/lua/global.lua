@@ -13,20 +13,18 @@ opt.expandtab = true
 
 -- Line numbers
 opt.number = true
+opt.relativenumber = true
 
 -- Clipboard
 opt.clipboard = "unnamedplus"
 
 -- Helper punctuation
-vim.opt.list = true
-vim.opt.listchars = {
+opt.list = true
+opt.listchars = {
   trail = '·',
   nbsp = '␣',
   tab = '→→',
 }
-
--- Neovide
-g.neovide_scale_factor = 0.75
 
 -- Trailing whitespace
 -- vim.fn.matchadd("errorMsg", [[\s\+$]])

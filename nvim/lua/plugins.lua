@@ -49,6 +49,19 @@ return {
     end,
   },
 
+  -- Bufferline
+  {
+    'akinsho/bufferline.nvim',
+    version = "*",
+    dependencies = {
+      'nvim-tree/nvim-web-devicons'
+    },
+    config = function()
+      local config = require("bufferline")
+      config.setup({})
+    end
+  },
+
   -- Git diffviewer
   {
     "sindrets/diffview.nvim",
@@ -92,7 +105,9 @@ return {
           -- nvim
           "vim", "vimdoc", "lua",
           -- misc
-          "comment", "gitignore", "diff", "dockerfile", "json", "yaml", "toml", "regex",
+          "comment", "dockerfile", "json", "yaml", "toml", "regex",
+          -- git
+          "gitcommit", "gitignore", "diff",
           -- shell
           "bash", -- "fish", "nu",
           -- markdown
