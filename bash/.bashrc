@@ -13,7 +13,7 @@ parse_git_branch() {
 }
 
 colorize() {
-  echo -e "\e[$1$2\e[m"
+  echo -e "\[\033[1;$1\]$2\[\033[0m\]"
 }
 
 PS1='['
@@ -31,7 +31,8 @@ export GPG_TTY=$(tty)
 # Configure editor
 export VISUAL="$(command -v nvim 2>/dev/null)"
 export EDITOR="$(command -v nvim 2>/dev/null || command -v vim 2>/dev/null || command -v nano)"
-alias vim='neovide --maximized --multigrid'
+[ -x "$(command -v nvim 2> /dev/null)" ] && alias vim='nvim'
+[ -x "$(command -v neovide 2> /dev/null)" ] && alias nvim='neovide --maximized --multigrid'
 
 # ghcup (Haskell)
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
