@@ -268,6 +268,7 @@ return {
   {
     "mrcjkb/haskell-tools.nvim",
     branch = "1.x.x",
+    version = "1.11.1",
     ft = "haskell",
     dependencies = {
       "nvim-lua/plenary.nvim",
