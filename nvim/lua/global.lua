@@ -38,6 +38,10 @@ vim.filetype.add({
 })
 
 
+-- Keymap
+vim.keymap.set('n', "<leader>e", vim.diagnostic.open_float, {})
+
+
 -- Workaround: https://github.com/neovim/neovim/issues/21856
 vim.api.nvim_create_autocmd({ "VimLeave" }, {
   callback = function()
