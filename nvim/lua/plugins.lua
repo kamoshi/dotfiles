@@ -135,6 +135,7 @@ return {
     end,
     init = function()
       vim.treesitter.language.register("markdown", "mdx")
+      vim.treesitter.language.register("haskell", "purescript")
     end,
   },
 
@@ -215,7 +216,8 @@ return {
           "svelte",         -- Svelte
           "pyright",        -- Python
           "rnix",           -- Nix
-          "ltex",        -- Literate - LaTeX, Markdown, etc.
+          "purescriptls",   -- Purescript
+          "ltex",           -- Literate - LaTeX, Markdown, etc.
         },
       })
 
