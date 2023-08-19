@@ -1,26 +1,13 @@
 return {
 
+  -- Fennel
+  {"rktjmp/hotpot.nvim"},
+
   -- Editor theme
-  {
-    "rebelot/kanagawa.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd("colorscheme kanagawa")
-    end,
-  },
+  require("plugins.kanagawa"),
 
   -- Status line
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      local lualine = require("lualine")
-      lualine.setup()
-    end,
-  },
+  require("plugins.lualine"),
 
   -- File tree
   {
@@ -103,7 +90,7 @@ return {
         sync_install = false,
         ensure_installed = {
           -- nvim
-          "vim", "vimdoc", "lua",
+          "vim", "vimdoc", "lua", "fennel",
           -- misc
           "comment", "dockerfile", "json", "yaml", "toml", "regex",
           -- git

@@ -1,13 +1,15 @@
+-- New bytecode cache
+vim.loader.enable()
+
 -- Setup global config
 require("global")
 
--- Setup Neovide config
 -- Only run this if inside Neovide
 if vim.g.neovide then
   require("neovide")
 end
 
--- Bootstrap package manager
+-- Bootstrap Lazy
 do
   local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
   if not vim.loop.fs_stat(lazypath) then
@@ -22,6 +24,27 @@ do
   end
   vim.opt.rtp:prepend(lazypath)
 end
+
+-- Bootstrap Fennel
+do
+  local hotpotpath = vim.fn.stdpath("data") .. "/lazy/hotpot.nvim"
+  if not vim.loop.fs_stat(hotpotpath) then
+    vim.notify("Bootstrapping hotpot.nvim...", vim.log.levels.INFO)
+    vim.fn.system({
+      "git",
+      "clone",
+      "--filter=blob:none",
+      "--single-branch",
+      -- You may with to pin a known version tag with `--branch vX.Y.Z`
+      "https://github.com/rktjmp/hotpot.nvim.git",
+      hotpotpath,
+    })
+  end
+  vim.opt.rtp:prepend(hotpotpath)
+end
+
+-- Load Fennel
+require("hotpot")
 
 -- Load lazy
 local lazy_ok, lazy = pcall(require, "lazy")
