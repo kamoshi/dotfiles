@@ -2,52 +2,39 @@ local g = vim.g
 local o = vim.o
 local opt = vim.opt
 
--- Debug
--- vim.lsp.set_log_level('debug')
+
+-- General
+opt.clipboard = "unnamedplus" -- Use system clipboard
+opt.swapfile = false          -- Don't use swapfiles
 
 -- Indentation
-opt.tabstop = 2
-opt.smartindent = true
-opt.shiftwidth = 2
-opt.expandtab = true
+opt.tabstop = 2               -- 1 tab = 2 spaces
+opt.smartindent = true        -- Autoindent new lines
+opt.shiftwidth = 2            -- Shift 2 spaces when tab
+opt.expandtab = true          -- Use spaces instead of tabs
 
--- Line numbers
-opt.number = true
-opt.relativenumber = true
-
--- Clipboard
-opt.clipboard = "unnamedplus"
-
--- Helper punctuation
-opt.list = true
-opt.listchars = {
+-- Visual
+opt.number = true             -- Show current line number
+opt.relativenumber = true     -- Show relative line numbers
+opt.colorcolumn = "80"        -- Show soft char limit
+opt.list = true               -- Show punctuation
+opt.listchars = {             -- Punctuation marks
   trail = '·',
   nbsp = '␣',
-  tab = '→→',
+  tab = '~→',
 }
 
 -- Trailing whitespace
--- vim.fn.matchadd("errorMsg", [[\s\+$]])
 vim.api.nvim_create_autocmd("BufWritePre", { command = [[%s/\s\+$//e]] })
 
+-- Additional filetypes
 vim.filetype.add({
   extension = {
     mdx = "mdx",
     typ = "typst",
-    purs = "purescript",
   }
 })
 
-
 -- Keymap
 vim.keymap.set('n', "<leader>e", vim.diagnostic.open_float, {})
-
-
--- Workaround: https://github.com/neovim/neovim/issues/21856
-vim.api.nvim_create_autocmd({ "VimLeave" }, {
-  callback = function()
-    -- vim.fn.jobstart('notify-send "hello"', {detach=true})
-    vim.cmd([[sleep 10m]])
-  end,
-})
 
