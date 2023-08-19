@@ -1,11 +1,16 @@
-local g = vim.g
-local o = vim.o
-local opt = vim.opt
+local g, opt = vim.g, vim.opt
 
+
+-- Providers
+g.loaded_python3_provider = 0
+g.loaded_ruby_provider = 0
+g.loaded_perl_provider = 0
+g.loaded_node_provider = 0
 
 -- General
 opt.clipboard = "unnamedplus" -- Use system clipboard
 opt.swapfile = false          -- Don't use swapfiles
+opt.completeopt = "menuone,noinsert,noselect" -- Completion behavior
 
 -- Indentation
 opt.tabstop = 2               -- 1 tab = 2 spaces
