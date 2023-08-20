@@ -1,4 +1,6 @@
-return function()
+local M = {}
+
+function M.config()
   local rt = require "rust-tools"
   local mason = require "mason-registry"
   local capabilities = require "cmp_nvim_lsp"
@@ -33,4 +35,6 @@ return function()
 
   rt.setup(opts)
 end
+
+return M
 

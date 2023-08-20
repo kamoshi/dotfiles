@@ -1,5 +1,7 @@
+local M = {}
+
 -- Reference: https://github.com/hrsh7th/nvim-cmp#recommended-configuration
-return function()
+function M.config()
   local cmp = require "cmp"
 
   cmp.setup({
@@ -61,4 +63,6 @@ return function()
     })
   })
 end
+
+return M
 

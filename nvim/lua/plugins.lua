@@ -1,13 +1,29 @@
+local U = require("utils")
+
+
 return {
 
-  -- Fennel
-  {"rktjmp/hotpot.nvim"},
-
   -- Editor theme
-  require("plugins.kanagawa"),
+  {
+    "rebelot/kanagawa.nvim",
+    lazy     = false,
+    priority = 1000,
+    config   = function()
+      vim.cmd("colorscheme kanagawa")
+    end,
+  },
 
   -- Status line
-  require("plugins.lualine"),
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      local lualine = require("lualine")
+      lualine.setup({})
+    end
+  },
 
   -- File tree
   {
@@ -45,7 +61,7 @@ return {
     },
     config = function()
       local config = require("bufferline")
-      config.setup({})
+      config.setup()
     end
   },
 
@@ -63,20 +79,7 @@ return {
     "lewis6991/gitsigns.nvim",
     config = function()
       local gitsigns = require("gitsigns")
-      gitsigns.setup()
-    end,
-  },
-
-  -- Discord presence
-  {
-    "andweeb/presence.nvim",
-    config = function()
-      local presence = require("presence")
-      presence.setup({
-        main_image = "file",
-        buttons = false,
-        show_time = false,
-      })
+      gitsigns.setup({})
     end,
   },
 
@@ -127,9 +130,8 @@ return {
   },
 
   -- LS configs
-  {
+  U.plugin("plugins.lspconfig") {
     "neovim/nvim-lspconfig",
-    config = require("configs/lsp"),
   },
 
   -- Snippet engine
@@ -139,7 +141,7 @@ return {
   },
 
   -- Completion
-  {
+  U.plugin("plugins.cmp") {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-cmdline",
@@ -148,7 +150,6 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "saadparwaiz1/cmp_luasnip",
     },
-    config = require("configs/cmp"),
   },
 
   -- Debugger adapter support
@@ -161,9 +162,8 @@ return {
   },
 
   -- Debugger UI
-  {
+  U.plugin("plugins.dap-ui") {
     "rcarriga/nvim-dap-ui",
-    config = require("configs/debugging"),
     dependencies = {
       "mfussenegger/nvim-dap",
     },
@@ -245,14 +245,13 @@ return {
   },
 
   -- Tools for Rust
-  {
+  U.plugin("plugins.rust-tools") {
     "simrat39/rust-tools.nvim",
     ft = "rust",
-    config = require("configs/rust-tools"),
   },
 
   -- Tools for Haskell
-  {
+  U.plugin("plugins.haskell-tools") {
     "mrcjkb/haskell-tools.nvim",
     branch = "1.x.x",
     ft = "haskell",

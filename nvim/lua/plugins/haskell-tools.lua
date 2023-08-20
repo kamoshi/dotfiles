@@ -1,4 +1,6 @@
-return function()
+local M = {}
+
+function M.config()
   local ht = require('haskell-tools')
   local def_opts = { noremap = true, silent = true, }
 
@@ -31,5 +33,8 @@ return function()
   -- Detect nvim-dap launch configurations
   -- (requires nvim-dap and haskell-debug-adapter)
   -- ht.dap.discover_configurations(bufnr)
+  return 1
 end
+
+return M
 

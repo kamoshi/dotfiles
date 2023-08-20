@@ -1,7 +1,10 @@
-return function()
+local M = {}
+
+
+function M.config()
   local dap = require "dap"
   local dapui = require "dapui"
-  
+
   dapui.setup({
     icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
     mappings = {
@@ -83,6 +86,9 @@ return function()
   -- end
   -- dap.listeners.before.event_exited["dapui_config"] = function()
   --   dapui.close()
-  -- end  
+  -- end
 end
+
+
+return M
 

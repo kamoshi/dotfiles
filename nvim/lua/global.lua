@@ -26,7 +26,7 @@ opt.list = true               -- Show punctuation
 opt.listchars = {             -- Punctuation marks
   trail = '·',
   nbsp = '␣',
-  tab = '~→',
+  tab = '→→',
 }
 
 -- Trailing whitespace
