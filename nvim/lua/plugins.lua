@@ -1,6 +1,5 @@
 local U = require("utils")
 
-
 return {
 
   -- Editor theme

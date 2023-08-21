@@ -1,15 +1,19 @@
-if vim.loader then vim.loader.enable() end
+-- Is new loader available?
+if vim.loader then
+  vim.loader.enable()
+end
 
--- Setup global config
-require("global")
+-- Setup default options
+require("options")
 
--- Only run this if inside Neovide
+-- Are we inside Neovide?
 if vim.g.neovide then
   require("neovide")
 end
 
--- Bootstrap Lazy
-do
+-- Are we outside VSCode?
+if not vim.g.vscode then
+  -- Bootstrap Lazy
   local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
   if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -22,15 +26,20 @@ do
     })
   end
   vim.opt.rtp:prepend(lazypath)
-end
 
--- Load lazy
-local lazy_ok, lazy = pcall(require, "lazy")
-if lazy_ok then
-  local plugins = require("plugins")
-  lazy.setup(plugins)
-  vim.keymap.set('n', '<leader>pm', lazy.home, { desc = "Package manager: open" })
-else
-  print("(init) Couldn't load Lazy")
+  -- Load lazy
+  local ok, err = pcall(function()
+    local plugins, lazy = require("plugins"), require("lazy")
+    lazy.setup(plugins)
+    vim.keymap.set('n', '<leader>pm', lazy.home, { desc = "Package manager: open" })
+  end)
+
+  if not ok then
+    -- save my eyes
+    vim.cmd("colorscheme slate")
+    vim.schedule(function()
+      vim.notify(err, vim.log.levels.ERROR)
+    end)
+  end
 end
 
