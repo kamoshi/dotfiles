@@ -5,6 +5,7 @@ end
 
 -- Setup default options
 require("options")
+require("keymaps")
 
 -- Are we inside Neovide?
 if vim.g.neovide then
