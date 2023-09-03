@@ -1,40 +1,35 @@
+local nmap = require("utility").curried_keymap('n')
 local M = {}
 
-function M.config()
-  local ht = require('haskell-tools')
-  local def_opts = { noremap = true, silent = true, }
 
-  ht.start_or_attach {
+function M.init()
+  vim.g.haskell_tools = {
     hls = {
-      on_attach = function(_, bufnr)
-        local opts = vim.tbl_extend('keep', def_opts, { buffer = bufnr, })
-        -- haskell-language-server relies heavily on codeLenses,
-        -- so auto-refresh (see advanced configuration) is enabled by default
-        vim.keymap.set('n', '<space>ca', vim.lsp.codelens.run, opts)
-        vim.keymap.set('n', '<space>hs', ht.hoogle.hoogle_signature, opts)
-        vim.keymap.set('n', '<space>ea', ht.lsp.buf_eval_all, opts)
-      end,
-    },
+      on_attach = function(_, buffer, ht)
+        nmap "<leader>hs" (ht.hoogle.hoogle_signature)  {"Hoogle: search", buffer}
+        nmap "<leader>ha" (ht.lsp.buf_eval_all)         {"Haskell: eval all", buffer}
+      end
+    }
   }
+end
 
-  -- Suggested keymaps that do not depend on haskell-language-server:
-  local bufnr = vim.api.nvim_get_current_buf()
-  -- set buffer = bufnr in ftplugin/haskell.lua
-  local opts = { noremap = true, silent = true, buffer = bufnr }
+function M.config()
+  local ht = require "haskell-tools"
+  local buffer = vim.api.nvim_get_current_buf()
 
-  -- Toggle a GHCi repl for the current package
-  vim.keymap.set('n', '<leader>rr', ht.repl.toggle, opts)
-  -- Toggle a GHCi repl for the current buffer
-  vim.keymap.set('n', '<leader>rf', function()
-    ht.repl.toggle(vim.api.nvim_buf_get_name(0))
-  end, def_opts)
-  vim.keymap.set('n', '<leader>rq', ht.repl.quit, opts)
+  local function repl_file()
+    local name = vim.api.nvim_buf_get_name(0)
+    ht.repl.toggle(name)
+  end
+
+  nmap "<leader>rr" (ht.repl.toggle)  {"Repl: Toggle GHCi for the current package", buffer}
+  nmap "<leader>rf" (repl_file)       "Repl: Toggle GHCi for the current buffer"
+  nmap "<leader>rq" (ht.repl.quit)    {"Repl: Quit", buffer}
 
   -- Detect nvim-dap launch configurations
   -- (requires nvim-dap and haskell-debug-adapter)
   -- ht.dap.discover_configurations(bufnr)
-  return 1
 end
 
-return M
 
+return M

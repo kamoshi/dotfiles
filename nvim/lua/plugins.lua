@@ -35,7 +35,6 @@ return {
     config = function()
       local telescope = require "telescope"
       local builtin = require "telescope.builtin"
-
       telescope.setup({
         extensions = {
           fzf = {
@@ -47,13 +46,22 @@ return {
         }
       })
       telescope.load_extension("fzf")
-
-      local nmap = U.curried_map 'n'
+      local nmap = U.curried_keymap 'n'
       nmap "<leader>ff" (builtin.find_files)  "Telescope: find files"
       nmap "<leader>fb" (builtin.buffers)     "Telescope: find buffers"
       nmap "<leader>fg" (builtin.live_grep)   "Telescope: grep content"
       nmap "<leader>fh" (builtin.help_tags)   "Telescope: search docs"
     end,
+  },
+
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {}
   },
 
   -- File tree
@@ -108,27 +116,27 @@ return {
         sync_install = false,
         ensure_installed = {
           -- nvim
-          "vim", "vimdoc", "lua", "fennel",
+          "vim", "vimdoc", "lua",
           -- misc
           "comment", "dockerfile", "json", "yaml", "toml", "regex",
           -- git
           "gitcommit", "gitignore", "diff",
           -- shell
-          "bash", -- "fish", "nu",
+          "bash",
           -- markdown
           "markdown", "markdown_inline",
           -- python
           "python",
           -- rust
-          "rust", "toml",
+          "rust",
           -- webdev
-          "html", "css", "scss", "javascript", "jsdoc", "typescript", "tsx", "astro", "svelte", "vue",
+          "html", "css", "scss", "javascript", "jsdoc", "typescript", "tsx", "astro", "svelte",
           -- haskell
           "haskell",
           -- nix
           "nix",
           -- literate
-          "latex", "bibtex", -- "typst",
+          "latex", "bibtex",
         },
         highlight = {
           enable = true,
@@ -268,8 +276,8 @@ return {
   -- Tools for Haskell
   U.plugin("plugins.haskell-tools") {
     "mrcjkb/haskell-tools.nvim",
-    branch = "1.x.x",
-    ft = "haskell",
+    branch = "2.x.x",
+    ft = {"haskell", "lhaskell", "cabal", "cabalproject"},
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",

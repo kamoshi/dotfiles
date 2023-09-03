@@ -1,9 +1,10 @@
+local nmap = require("utility").curried_keymap('n')
 local M = {}
 
 function M.config()
-  local rt = require "rust-tools"
+  local tools = require "rust-tools"
   local mason = require "mason-registry"
-  local capabilities = require "cmp_nvim_lsp"
+  local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
   local lsp_root = mason.get_package("codelldb"):get_install_path() .. "/extension/"
   local lsp_path = lsp_root .. "adapter/codelldb"
@@ -12,17 +13,15 @@ function M.config()
   local opts = {
     server = {
       standalone = true,
-      -- capabilities = capabilities,
-      on_attach = function(client, bufnr)
-        local buf_opts = { noremap = true, silent = true, buffer = bufnr }
-        vim.keymap.set('n', "<C-b>", rt.hover_actions.hover_actions, buf_opts)
-        vim.keymap.set('n', "<Leader>a", rt.code_action_group.code_action_group, buf_opts)
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, buf_opts)
+      capabilities = capabilities,
+      on_attach = function(_, bufnr)
+        nmap "<C-b>"      (tools.hover_actions.hover_actions)         {buffer=bufnr}
+        nmap "<Leader>a"  (tools.code_action_group.code_action_group) {buffer=bufnr}
       end,
       ["rust-analyzer"] = {
         cargo = { allFeatures = true },
         checkOnSave = {
-          -- default: `cargo check`
+          -- default = "cargo check",
           command = "clippy",
           allFeatures = true,
         }
@@ -33,7 +32,7 @@ function M.config()
     },
   }
 
-  rt.setup(opts)
+  tools.setup(opts)
 end
 
 return M
