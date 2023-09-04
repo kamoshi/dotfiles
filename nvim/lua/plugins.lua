@@ -46,7 +46,7 @@ return {
         }
       })
       telescope.load_extension("fzf")
-      local nmap = U.curried_keymap 'n'
+      local nmap = U.keymap 'n'
       nmap "<leader>ff" (builtin.find_files)  "Telescope: find files"
       nmap "<leader>fb" (builtin.buffers)     "Telescope: find buffers"
       nmap "<leader>fg" (builtin.live_grep)   "Telescope: grep content"

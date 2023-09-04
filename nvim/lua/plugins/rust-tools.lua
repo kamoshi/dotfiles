@@ -1,5 +1,6 @@
-local nmap = require("utility").curried_keymap('n')
+local nmap = require("utility").keymap('n')
 local M = {}
+
 
 function M.config()
   local tools = require "rust-tools"

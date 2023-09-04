@@ -1,4 +1,4 @@
-local nmap = require("utility").curried_keymap('n')
+local nmap = require("utility").keymap('n')
 local M = {}
 
 

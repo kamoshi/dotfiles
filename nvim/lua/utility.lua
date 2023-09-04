@@ -21,7 +21,7 @@ end
 
 ---Wrapper around `vim.keymap.set`
 ---@param modes string|string[]
-function M.curried_keymap(modes)
+function M.keymap(modes)
   ---@param lhs string
   return function(lhs)
     ---@param rhs string|function
