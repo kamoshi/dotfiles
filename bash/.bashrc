@@ -37,7 +37,10 @@ export EDITOR="$(command -v nvim 2>/dev/null || command -v vim 2>/dev/null || co
 # ghcup (Haskell)
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 
-# Nodejs
+# NodeJS
 export npm_config_prefix="$HOME/.local"
 export PATH="$HOME/.local/bin:$PATH"
 
+# Bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
