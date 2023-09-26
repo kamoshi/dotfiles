@@ -1,3 +1,5 @@
+local U = require("utility")
+local autocmd = U.autocmd
 local g, opt = vim.g, vim.opt
 
 
@@ -11,6 +13,7 @@ g.loaded_node_provider = 0
 opt.clipboard = "unnamedplus" -- Use system clipboard
 opt.swapfile = false          -- Don't use swapfiles
 opt.completeopt = "menuone,noinsert,noselect" -- Completion behavior
+opt.termguicolors = true
 
 -- Indentation
 opt.tabstop = 2               -- 1 tab = 2 spaces
@@ -30,7 +33,10 @@ opt.listchars = {             -- Punctuation marks
 }
 
 -- Trailing whitespace
-vim.api.nvim_create_autocmd("BufWritePre", { command = [[%s/\s\+$//e]] })
+autocmd "BufWritePre" {} (function()
+  if vim.bo.filetype == "markdown" then return end
+  vim.cmd([[%s/\s\+$//e]])
+end)
 
 -- Additional filetypes
 vim.filetype.add({

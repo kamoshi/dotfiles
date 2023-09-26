@@ -153,7 +153,7 @@ return {
   },
 
   -- LS configs
-  U.plugin("plugins.lspconfig") {
+  {
     "neovim/nvim-lspconfig",
   },
 
@@ -285,4 +285,3 @@ return {
   },
 
 }
-
