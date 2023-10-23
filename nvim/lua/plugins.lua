@@ -106,6 +106,17 @@ return {
     end,
   },
 
+  {
+    "andweeb/presence.nvim",
+    config = function()
+      require("presence").setup {
+        main_image  = "file",
+        show_time   = false,
+        buttons     = false,
+      }
+    end
+  },
+
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
@@ -216,6 +227,7 @@ return {
         -- Haskell: Use GHCup installation instead of hls
         ensure_installed = {
           "lua_ls",         -- Lua
+          "bashls",         -- Bash
           "rust_analyzer",  -- Rust
           "html",           -- HTML
           "cssls",          -- CSS / SCSS
