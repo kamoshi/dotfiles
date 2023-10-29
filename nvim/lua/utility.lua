@@ -3,18 +3,6 @@ local M = {}
 local def_opts = {noremap = true, silent = true}
 
 
----Loads plugin config
----@param path string
-function M.plugin(path)
-  local loaded = require(path)
-  ---@param meta table
-  ---@return table
-  return function(meta)
-    return vim.tbl_extend("keep", meta, loaded)
-  end
-end
-
-
 ---@class KeymapOpts
 ---@field [1]? string Shorthand description
 ---@field desc? string Description

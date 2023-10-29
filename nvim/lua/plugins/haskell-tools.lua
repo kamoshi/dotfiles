@@ -32,4 +32,8 @@ function M.config()
 end
 
 
-return M
+---@param config table
+---@return table
+return function(config)
+  return vim.tbl_extend("keep", config, M)
+end

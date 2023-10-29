@@ -1,5 +1,6 @@
 local U = require("utility")
 
+
 return {
 
   -- Editor theme
@@ -175,7 +176,7 @@ return {
   },
 
   -- Completion
-  U.plugin("plugins.cmp") {
+  require "plugins.nvim-cmp" {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-cmdline",
@@ -196,7 +197,7 @@ return {
   },
 
   -- Debugger UI
-  U.plugin("plugins.dap-ui") {
+  require "plugins.nvim-dap-ui" {
     "rcarriga/nvim-dap-ui",
     dependencies = {
       "mfussenegger/nvim-dap",
@@ -280,15 +281,15 @@ return {
   },
 
   -- Tools for Rust
-  U.plugin("plugins.rust-tools") {
+  require "plugins.rust-tools" {
     "simrat39/rust-tools.nvim",
     ft = "rust",
   },
 
   -- Tools for Haskell
-  U.plugin("plugins.haskell-tools") {
+  require "plugins.haskell-tools" {
     "mrcjkb/haskell-tools.nvim",
-    branch = "2.x.x",
+    version = "^3",
     ft = {"haskell", "lhaskell", "cabal", "cabalproject"},
     dependencies = {
       "nvim-lua/plenary.nvim",
