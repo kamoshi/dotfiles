@@ -1,4 +1,5 @@
 local U = require("utility")
+local n = U.keymap 'n'
 
 
 return {
@@ -8,8 +9,8 @@ return {
     "rebelot/kanagawa.nvim",
     lazy     = false,
     priority = 1000,
-    config   = function()
-      vim.cmd("colorscheme kanagawa")
+    config = function()
+      vim.cmd "colorscheme kanagawa"
     end,
   },
 
@@ -35,7 +36,8 @@ return {
     },
     config = function()
       local telescope = require "telescope"
-      local builtin = require "telescope.builtin"
+      local builtin   = require "telescope.builtin"
+      local ext       = telescope.extensions
       telescope.setup({
         extensions = {
           fzf = {
@@ -47,14 +49,16 @@ return {
         }
       })
       telescope.load_extension("fzf")
-      local nmap = U.keymap 'n'
-      nmap "<leader>ff" (builtin.find_files)  "Telescope: find files"
-      nmap "<leader>fb" (builtin.buffers)     "Telescope: find buffers"
-      nmap "<leader>fg" (builtin.live_grep)   "Telescope: grep content"
-      nmap "<leader>fh" (builtin.help_tags)   "Telescope: search docs"
+      telescope.load_extension("notify")
+      n "<leader>ff" (builtin.find_files) "Telescope: find files"
+      n "<leader>fb" (builtin.buffers)    "Telescope: find buffers"
+      n "<leader>fg" (builtin.live_grep)  "Telescope: grep content"
+      n "<leader>fh" (builtin.help_tags)  "Telescope: search docs"
+      n "<leader>fn" (ext.notify.notify)  "Telescope: find notifications"
     end,
   },
 
+  -- Shortcut hints
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
@@ -63,6 +67,14 @@ return {
       vim.o.timeoutlen = 300
     end,
     opts = {}
+  },
+
+  -- Notifications
+  {
+    "rcarriga/nvim-notify",
+    config = function()
+      vim.notify = require "notify"
+    end
   },
 
   -- File tree
@@ -191,8 +203,8 @@ return {
   {
     "mfussenegger/nvim-dap",
     config = function()
-      local dap = require("dap")
-      vim.keymap.set('n', "<leader>b", dap.toggle_breakpoint)
+      local dap = require "dap"
+      n "<leader>b" (dap.toggle_breakpoint) "DAP: Toggle breakpoint"
     end,
   },
 
