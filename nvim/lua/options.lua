@@ -39,14 +39,11 @@ autocmd "BufWritePre" {} (function()
 end)
 
 -- Additional filetypes
-vim.filetype.add({
+vim.filetype.add {
   extension = {
-    mdx = "mdx",
-    typ = "typst",
-    purs = "purescript",
+    mdx   = "mdx",
+    typ   = "typst",
+    purs  = "purescript",
   }
-})
-
--- Keymap
-vim.keymap.set('n', "<leader>e", vim.diagnostic.open_float, {})
+}
 

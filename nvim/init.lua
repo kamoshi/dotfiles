@@ -4,12 +4,12 @@ if vim.loader then
 end
 
 -- Setup default options
-require("options")
-require("keymaps")
+require "options"
+require "keymaps"
 
 -- Are we inside Neovide?
 if vim.g.neovide then
-  require("neovide")
+  require "neovide"
 end
 
 -- Are we outside VSCode?
@@ -22,7 +22,7 @@ if not vim.g.vscode then
       "clone",
       "--filter=blob:none",
       "https://github.com/folke/lazy.nvim.git",
-      "--branch=stable", -- latest stable release
+      "--branch=stable",
       lazypath,
     })
   end
@@ -30,14 +30,15 @@ if not vim.g.vscode then
 
   -- Load lazy
   local ok, err = pcall(function()
-    local plugins, lazy = require("plugins"), require("lazy")
+    local plugins = require "plugins"
+    local lazy    = require "lazy"
+
     lazy.setup(plugins)
-    vim.keymap.set('n', '<leader>pm', lazy.home, { desc = "Package manager: open" })
   end)
 
-  if not ok then
-    -- save my eyes
-    vim.cmd("colorscheme slate")
+  if not ok and err then
+    vim.cmd "colorscheme slate"
+
     vim.schedule(function()
       vim.notify(err, vim.log.levels.ERROR)
     end)
