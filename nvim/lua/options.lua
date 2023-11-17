@@ -44,6 +44,7 @@ vim.filetype.add {
     mdx   = "mdx",
     typ   = "typst",
     purs  = "purescript",
+    nu    = "nu"
   }
 }
 

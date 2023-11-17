@@ -2,6 +2,8 @@ local U = require "utility"
 local n = U.keymap "n"
 
 
+
+
 ---@type LazySpec
 return {
 
@@ -190,6 +192,11 @@ return {
   -- LS configs
   {
     "neovim/nvim-lspconfig",
+    config = function()
+      local lsp = require "lspconfig"
+
+      lsp.nushell.setup {}
+    end
   },
 
   -- Snippet engine
@@ -271,10 +278,10 @@ return {
 
       config.setup_handlers {
         function(server)
-          lsp[server].setup({
+          lsp[server].setup {
             single_file_support = true,
             capabilities = cmp.default_capabilities(),
-          })
+          }
         end,
       }
     end,
