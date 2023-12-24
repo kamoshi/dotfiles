@@ -2,16 +2,14 @@ local U = require "utility"
 local n = U.keymap "n"
 
 
-
-
 ---@type LazySpec
 return {
 
-  -- Editor theme
+  -- Theme
   {
     "rebelot/kanagawa.nvim",
     lazy     = false,
-    priority = 1000,
+    priority = math.huge,
     config = function()
       vim.cmd "colorscheme kanagawa"
     end,
@@ -150,16 +148,20 @@ return {
         sync_install     = false,
         ignore_install   = {},
         ensure_installed = {
-          -- nvim
-          "vim", "vimdoc", "lua",
-          -- misc
-          "comment", "dockerfile", "json", "yaml", "toml", "regex",
-          -- git
-          "gitcommit", "gitignore", "diff",
-          -- shell
-          "bash",
+          -- neovim
+          "vimdoc", "lua", "query",
+          -- data
+          "json", "xml", "yaml", "toml", "dhall",
           -- markdown
           "markdown", "markdown_inline",
+          -- latex
+          "latex", "bibtex",
+          -- git
+          "gitcommit", "gitignore", "diff",
+          -- misc
+          "comment", "dockerfile", "regex",
+          -- shell
+          "bash",
           -- python
           "python",
           -- rust
@@ -167,25 +169,16 @@ return {
           -- webdev
           "html", "css", "scss", "javascript", "jsdoc", "typescript", "tsx", "astro", "svelte",
           -- haskell
-          "haskell",
-          -- nix
-          "nix",
-          -- literate
-          "latex", "bibtex",
+          "haskell", "purescript", "nix",
         },
-        highlight = {
-          enable = true,
-        },
-        indent = {
-          enable = true,
-        },
+        highlight = { enable = true },
+        indent    = { enable = true },
       }
     end,
     init = function()
       local lang = vim.treesitter.language
 
       lang.register("markdown", "mdx")
-      lang.register("haskell", "purescript")
     end,
   },
 

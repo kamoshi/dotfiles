@@ -32,7 +32,7 @@ export GPG_TTY=$(tty)
 export VISUAL="$(command -v nvim 2>/dev/null)"
 export EDITOR="$(command -v nvim 2>/dev/null || command -v vim 2>/dev/null || command -v nano)"
 [ -x "$(command -v nvim 2> /dev/null)" ] && alias vim='nvim'
-[ -x "$(command -v neovide 2> /dev/null)" ] && alias nvim='neovide --maximized --multigrid'
+[ -x "$(command -v neovide 2> /dev/null)" ] && alias nvim='neovide'
 
 # ghcup (Haskell)
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env

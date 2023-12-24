@@ -27,9 +27,10 @@ opt.relativenumber = true     -- Show relative line numbers
 opt.colorcolumn = "80"        -- Show soft char limit
 opt.list = true               -- Show punctuation
 opt.listchars = {             -- Punctuation marks
-  trail = '·',
-  nbsp = '␣',
-  tab = '→→',
+  trail           = "·",
+  nbsp            = "␣",
+  tab             = "⇥ ",
+  leadmultispace  = "│ ",
 }
 
 -- Trailing whitespace

@@ -1,4 +1,13 @@
-vim.g.neovide_scale_factor = 0.75
+local options = {
+  scale_factor               = 0.75,
+  scroll_animation_far_lines = 999,
+  scroll_animation_length    = 0.1,
+  cursor_animation_length    = 0.1,
+}
+
+for key, value in pairs(options) do
+  vim.g['neovide_' .. key] = value
+end
 
 -- Japanese IME compat
 local function set_ime(args)

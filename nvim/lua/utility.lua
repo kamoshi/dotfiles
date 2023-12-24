@@ -1,5 +1,4 @@
 local M = {}
-
 local def_opts = {noremap = true, silent = true}
 
 
@@ -73,6 +72,16 @@ function M.autocmd(event)
       opts.callback = callback
       vim.api.nvim_create_autocmd(event, opts)
     end
+  end
+end
+
+
+---@param config LazyPluginSpec
+function M.as_extendable(config)
+---@param base LazyPluginSpec
+---@return LazyPluginSpec
+  return function(base)
+    return vim.tbl_extend("keep", base, config)
   end
 end
 
