@@ -44,3 +44,6 @@ export PATH="$HOME/.local/bin:$PATH"
 # Bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Julia
+export PATH="$HOME/.juliaup/bin:$PATH"

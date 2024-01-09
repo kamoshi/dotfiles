@@ -162,6 +162,8 @@ return {
           "comment", "dockerfile", "regex",
           -- shell
           "bash",
+          -- julia
+          "julia",
           -- python
           "python",
           -- rust
@@ -266,6 +268,7 @@ return {
           "rnix",           -- Nix
           "purescriptls",   -- Purescript
           "ltex",           -- Literate - LaTeX, Markdown, etc.
+          "julials",        -- Julia
         },
       }
 

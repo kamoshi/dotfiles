@@ -1,8 +1,8 @@
 local options = {
   scale_factor               = 0.75,
-  scroll_animation_far_lines = 999,
-  scroll_animation_length    = 0.1,
-  cursor_animation_length    = 0.1,
+  scroll_animation_far_lines = 100,
+  scroll_animation_length    = 0.05,
+  cursor_animation_length    = 0.05,
 }
 
 for key, value in pairs(options) do
