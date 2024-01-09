@@ -247,18 +247,20 @@ return {
       "neovim/nvim-lspconfig",
     },
     config = function()
-      local config  = require "mason-lspconfig"
-      local lsp     = require "lspconfig"
-      local cmp     = require "cmp_nvim_lsp"
+      local config = require "mason-lspconfig"
+      local lsp    = require "lspconfig"
+      local cmp    = require "cmp_nvim_lsp"
+
+      local noop   = function() end
 
       config.setup {
         automatic_installation = true,
         -- NOTE
-        -- Haskell: Use GHCup installation instead of hls
+        -- Haskell: Managed by GHCup
         ensure_installed = {
           "lua_ls",         -- Lua
-          "bashls",         -- Bash
           "rust_analyzer",  -- Rust
+          "bashls",         -- Bash
           "html",           -- HTML
           "cssls",          -- CSS / SCSS
           "tsserver",       -- TypeScript
@@ -273,12 +275,13 @@ return {
       }
 
       config.setup_handlers {
-        function(server)
-          lsp[server].setup {
+        function(name)
+          lsp[name].setup {
             single_file_support = true,
             capabilities = cmp.default_capabilities(),
           }
         end,
+        ['rust_analyzer'] = noop,
       }
     end,
   },
@@ -323,9 +326,13 @@ return {
   },
 
   -- Tools for Rust
-  require "plugins.rust-tools" {
-    "simrat39/rust-tools.nvim",
-    ft = "rust",
+  {
+    "mrcjkb/rustaceanvim",
+    version = "^3",
+    ft = { "rust" },
+    init = function()
+      require 'plugins.rust-tools'
+    end
   },
 
   -- Tools for Haskell
