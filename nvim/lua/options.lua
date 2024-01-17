@@ -42,10 +42,10 @@ end)
 -- Additional filetypes
 vim.filetype.add {
   extension = {
-    mdx   = "mdx",
-    typ   = "typst",
-    purs  = "purescript",
-    nu    = "nu"
+    mdx  = 'mdx',
+    typ  = 'typst',
+    purs = 'purescript',
+    nu   = 'nu',
   }
 }
 

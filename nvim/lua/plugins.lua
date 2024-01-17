@@ -140,9 +140,9 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()
-      local config = require "nvim-treesitter.configs"
+      local configs = require 'nvim-treesitter.configs'
 
-      config.setup {
+      configs.setup {
         modules          = {},
         auto_install     = false,
         sync_install     = false,
@@ -180,18 +180,22 @@ return {
     init = function()
       local lang = vim.treesitter.language
 
-      lang.register("markdown", "mdx")
+      lang.register('markdown', 'mdx')
+      lang.register('markdown', 'lhaskell')
     end,
   },
 
   -- LS configs
   {
     "neovim/nvim-lspconfig",
+    opts = {
+      inlay_hints = { enabled = true },
+    },
     config = function()
       local lsp = require "lspconfig"
 
       lsp.nushell.setup {}
-    end
+    end,
   },
 
   -- Snippet engine
