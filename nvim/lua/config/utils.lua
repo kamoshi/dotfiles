@@ -1,5 +1,6 @@
 local M = {}
-local def_opts = {noremap = true, silent = true}
+
+local defaults = { noremap = true, silent = true }
 
 
 ---@class KeymapOpts
@@ -19,13 +20,13 @@ function M.keymap(modes)
       return function(opts)
         local type = type(opts)
         local options
-        if type == "string" then
-          options = vim.tbl_extend("force", def_opts, {desc=opts})
-        elseif type == "table" then
+        if type == 'string' then
+          options = vim.tbl_extend('force', defaults, {desc=opts})
+        elseif type == 'table' then
           opts.desc = opts[1] or opts.desc
           opts.buffer = opts[2] or opts.buffer
           opts[1], opts[2] = nil, nil
-          options = vim.tbl_extend("force", def_opts, opts)
+          options = vim.tbl_extend('force', defaults, opts)
         end
         vim.keymap.set(modes, lhs, rhs, options)
       end
@@ -44,9 +45,9 @@ end
 function M.augroup(opts)
   local type = type(opts)
   local name, options
-  if type == "string" then
+  if type == 'string' then
     name, options = opts, {}
-  elseif type == "table" then
+  elseif type == 'table' then
     name, options = opts[1], opts
     options[1] = nil
   end
@@ -81,7 +82,7 @@ function M.as_extendable(config)
 ---@param base LazyPluginSpec
 ---@return LazyPluginSpec
   return function(base)
-    return vim.tbl_extend("keep", base, config)
+    return vim.tbl_extend('keep', base, config)
   end
 end
 

@@ -1,5 +1,5 @@
-local U = require "utility"
-local n = U.keymap "n"
+local util = require 'config.utils'
+local n = util.keymap 'n'
 
 
 ---@type LazySpec
@@ -7,138 +7,67 @@ return {
 
   -- Theme
   {
-    "rebelot/kanagawa.nvim",
+    'rebelot/kanagawa.nvim',
+    enabled  = not vim.g.vscode,
     lazy     = false,
     priority = math.huge,
     config = function()
-      vim.cmd "colorscheme kanagawa"
+      vim.cmd 'colorscheme kanagawa'
     end,
   },
 
   -- Status line
   {
-    "nvim-lualine/lualine.nvim",
+    'nvim-lualine/lualine.nvim',
+    enabled = not vim.g.vscode,
     dependencies = {
-      "nvim-tree/nvim-web-devicons",
+      'nvim-tree/nvim-web-devicons',
     },
     config = function()
-      local lualine = require "lualine"
+      local lualine = require 'lualine'
       lualine.setup {}
     end
   },
 
   -- Telescope
   {
-    "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
+    'nvim-telescope/telescope.nvim',
+    enabled = not vim.g.vscode,
+    branch = '0.1.x',
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }
+      'nvim-lua/plenary.nvim',
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
     },
     config = function()
-      local telescope = require "telescope"
-      local builtin   = require "telescope.builtin"
+      local telescope = require 'telescope'
+      local builtin   = require 'telescope.builtin'
       local ext       = telescope.extensions
 
-      telescope.load_extension "fzf"
-      telescope.load_extension "notify"
+      telescope.load_extension 'fzf'
+      telescope.load_extension 'notify'
       telescope.setup {
         extensions = {
           fzf = {
             fuzzy = true,
             override_generic_sorter = true,
             override_file_sorter = true,
-            case_mode = "smart_case",
+            case_mode = 'smart_case',
           }
         }
       }
 
-      n "<leader>ff" (builtin.find_files) "Telescope: find files"
-      n "<leader>fb" (builtin.buffers)    "Telescope: find buffers"
-      n "<leader>fg" (builtin.live_grep)  "Telescope: grep content"
-      n "<leader>fh" (builtin.help_tags)  "Telescope: search docs"
-      n "<leader>fn" (ext.notify.notify)  "Telescope: find notifications"
+      n '<leader>ff' (builtin.find_files) 'Telescope: find files'
+      n '<leader>fb' (builtin.buffers)    'Telescope: find buffers'
+      n '<leader>fg' (builtin.live_grep)  'Telescope: grep content'
+      n '<leader>fh' (builtin.help_tags)  'Telescope: search docs'
+      n '<leader>fn' (ext.notify.notify)  'Telescope: find notifications'
     end,
-  },
-
-  -- Shortcut hints
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
-    end,
-    opts = {}
-  },
-
-  -- Notifications
-  {
-    "rcarriga/nvim-notify",
-    config = function()
-      vim.notify = require "notify"
-    end
-  },
-
-  -- File tree
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-  },
-
-  -- Bufferline
-  {
-    "akinsho/bufferline.nvim",
-    version = "*",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons"
-    },
-    config = function()
-      local config = require "bufferline"
-      config.setup()
-    end
-  },
-
-  -- Git diffviewer
-  {
-    "sindrets/diffview.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-    },
-  },
-
-  -- Git signs
-  {
-    "lewis6991/gitsigns.nvim",
-    config = function()
-      local gitsigns = require "gitsigns"
-      gitsigns.setup()
-    end,
-  },
-
-  {
-    "andweeb/presence.nvim",
-    config = function()
-      local presence = require "presence"
-
-      presence.setup {
-        main_image  = "file",
-        show_time   = false,
-        buttons     = false,
-      }
-    end
   },
 
   -- Treesitter
   {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
     config = function()
       local configs = require 'nvim-treesitter.configs'
 
@@ -149,32 +78,41 @@ return {
         ignore_install   = {},
         ensure_installed = {
           -- neovim
-          "vimdoc", "lua", "query",
+          'vimdoc', 'lua', 'query',
           -- data
-          "json", "xml", "yaml", "toml", "dhall",
+          'json', 'xml', 'yaml', 'toml', 'dhall',
           -- markdown
-          "markdown", "markdown_inline",
+          'markdown', 'markdown_inline',
           -- latex
-          "latex", "bibtex",
+          'latex', 'bibtex',
           -- git
-          "gitcommit", "gitignore", "diff",
+          'gitcommit', 'gitignore', 'diff',
           -- misc
-          "comment", "dockerfile", "regex",
+          'comment', 'dockerfile', 'regex',
           -- shell
-          "bash",
+          'bash',
           -- julia
-          "julia",
+          'julia',
           -- python
-          "python",
+          'python',
           -- rust
-          "rust",
+          'rust',
           -- webdev
-          "html", "css", "scss", "javascript", "jsdoc", "typescript", "tsx", "astro", "svelte",
+          'html', 'css', 'scss', 'javascript', 'jsdoc', 'typescript', 'tsx', 'astro', 'svelte',
           -- haskell
-          "haskell", "purescript", "nix",
+          'haskell', 'purescript', 'nix',
         },
         highlight = { enable = true },
         indent    = { enable = true },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection    = '<CR>',
+            scope_incremental = '<CR>',
+            node_incremental  = '<TAB>',
+            node_decremental  = '<S-TAB>',
+          },
+        },
       }
     end,
     init = function()
@@ -185,14 +123,88 @@ return {
     end,
   },
 
+  -- Git signs
+  {
+    'lewis6991/gitsigns.nvim',
+    enabled = not vim.g.vscode,
+    config = function()
+      local gitsigns = require 'gitsigns'
+      gitsigns.setup()
+    end,
+  },
+
+  -- Comments
+  {
+    'numToStr/Comment.nvim',
+    config = true,
+  },
+
+  -- Shortcut hints
+  {
+    'folke/which-key.nvim',
+    enabled = not vim.g.vscode,
+    event = 'VeryLazy',
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {}
+  },
+
+  -- Notifications
+  {
+    'rcarriga/nvim-notify',
+    enabled = not vim.g.vscode,
+    config = function()
+      vim.notify = require 'notify'
+    end
+  },
+
+  -- File tree
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    enabled = not vim.g.vscode,
+    branch = 'v3.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'MunifTanjim/nui.nvim',
+    },
+  },
+
+  -- Bufferline
+  {
+    'akinsho/bufferline.nvim',
+    enabled = not vim.g.vscode,
+    version = '*',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons'
+    },
+    config = function()
+      local config = require 'bufferline'
+      config.setup()
+    end
+  },
+
+  -- Git diffviewer
+  {
+    'sindrets/diffview.nvim',
+    enabled = not vim.g.vscode,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+  },
+
   -- LS configs
   {
-    "neovim/nvim-lspconfig",
+    'neovim/nvim-lspconfig',
+    enabled = not vim.g.vscode,
     opts = {
       inlay_hints = { enabled = true },
     },
     config = function()
-      local lsp = require "lspconfig"
+      local lsp = require 'lspconfig'
 
       lsp.nushell.setup {}
     end,
@@ -200,60 +212,64 @@ return {
 
   -- Snippet engine
   {
-    "L3MON4D3/LuaSnip",
-    version = "2.*",
+    'L3MON4D3/LuaSnip',
+    version = '2.*',
   },
 
   -- Completion
-  require "plugins.nvim-cmp" {
-    "hrsh7th/nvim-cmp",
+  require 'plugins.nvim-cmp' {
+    'hrsh7th/nvim-cmp',
     dependencies = {
-      "hrsh7th/cmp-cmdline",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-nvim-lsp",
-      "saadparwaiz1/cmp_luasnip",
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-nvim-lsp',
+      'saadparwaiz1/cmp_luasnip',
     },
   },
 
   -- Debugger adapter support
   {
-    "mfussenegger/nvim-dap",
+    'mfussenegger/nvim-dap',
+    enabled = not vim.g.vscode,
     config = function()
-      local dap = require "dap"
+      local dap = require 'dap'
 
-      n "<leader>b" (dap.toggle_breakpoint) "DAP: Toggle breakpoint"
+      n '<leader>b' (dap.toggle_breakpoint) 'DAP: Toggle breakpoint'
     end,
   },
 
   -- Debugger UI
-  require "plugins.nvim-dap-ui" {
-    "rcarriga/nvim-dap-ui",
+  require 'plugins.nvim-dap-ui' {
+    'rcarriga/nvim-dap-ui',
+    enabled = not vim.g.vscode,
     dependencies = {
-      "mfussenegger/nvim-dap",
+      'mfussenegger/nvim-dap',
     },
   },
 
   -- Mason
   {
-    "williamboman/mason.nvim",
+    'williamboman/mason.nvim',
+    enabled = not vim.g.vscode,
     config = function()
-      local mason = require "mason"
+      local mason = require 'mason'
       mason.setup()
     end,
   },
 
   -- Automatic LSP server setup for Mason
   {
-    "williamboman/mason-lspconfig.nvim",
+    'williamboman/mason-lspconfig.nvim',
+    enabled = not vim.g.vscode,
     dependencies = {
-      "williamboman/mason.nvim",
-      "neovim/nvim-lspconfig",
+      'williamboman/mason.nvim',
+      'neovim/nvim-lspconfig',
     },
     config = function()
-      local config = require "mason-lspconfig"
-      local lsp    = require "lspconfig"
-      local cmp    = require "cmp_nvim_lsp"
+      local config = require 'mason-lspconfig'
+      local lsp    = require 'lspconfig'
+      local cmp    = require 'cmp_nvim_lsp'
 
       local noop   = function() end
 
@@ -262,19 +278,19 @@ return {
         -- NOTE
         -- Haskell: Managed by GHCup
         ensure_installed = {
-          "lua_ls",         -- Lua
-          "rust_analyzer",  -- Rust
-          "bashls",         -- Bash
-          "html",           -- HTML
-          "cssls",          -- CSS / SCSS
-          "tsserver",       -- TypeScript
-          "astro",          -- Astro
-          "svelte",         -- Svelte
-          "pyright",        -- Python
-          "rnix",           -- Nix
-          "purescriptls",   -- Purescript
-          "ltex",           -- Literate - LaTeX, Markdown, etc.
-          "julials",        -- Julia
+          'lua_ls',         -- Lua
+          'rust_analyzer',  -- Rust
+          'bashls',         -- Bash
+          'html',           -- HTML
+          'cssls',          -- CSS / SCSS
+          'tsserver',       -- TypeScript
+          'astro',          -- Astro
+          'svelte',         -- Svelte
+          'pyright',        -- Python
+          'rnix',           -- Nix
+          'purescriptls',   -- Purescript
+          'ltex',           -- Literate - LaTeX, Markdown, etc.
+          'julials',        -- Julia
         },
       }
 
@@ -292,18 +308,19 @@ return {
 
   -- Automatic debugger install
   {
-    "jay-babu/mason-nvim-dap.nvim",
+    'jay-babu/mason-nvim-dap.nvim',
+    enabled = not vim.g.vscode,
     dependencies = {
-      "mfussenegger/nvim-dap",
-      "williamboman/mason.nvim",
+      'mfussenegger/nvim-dap',
+      'williamboman/mason.nvim',
     },
     config = function()
-      local config = require "mason-nvim-dap"
+      local config = require 'mason-nvim-dap'
 
       config.setup {
         automatic_installation = true,
         ensure_installed = {
-          "codelldb",
+          'codelldb',
         },
       }
     end,
@@ -311,19 +328,20 @@ return {
 
   -- Tools for Neovim
   {
-    "folke/neodev.nvim",
-    ft = "lua",
+    'folke/neodev.nvim',
+    enabled = not vim.g.vscode,
+    ft = 'lua',
     dependencies = {
-      "neovim/nvim-lspconfig",
+      'neovim/nvim-lspconfig',
     },
     config = function()
-      local neodev  = require "neodev"
-      local lsp     = require "lspconfig"
+      local neodev  = require 'neodev'
+      local lsp     = require 'lspconfig'
 
       neodev.setup()
       lsp.lua_ls.setup {
         settings = {
-          Lua = { completion = { callSnippet = "Replace" } }
+          Lua = { completion = { callSnippet = 'Replace' } }
         }
       }
     end
@@ -331,22 +349,24 @@ return {
 
   -- Tools for Rust
   {
-    "mrcjkb/rustaceanvim",
-    version = "^3",
-    ft = { "rust" },
+    'mrcjkb/rustaceanvim',
+    enabled = not vim.g.vscode,
+    version = '^3',
+    ft = { 'rust' },
     init = function()
       require 'plugins.rust-tools'
     end
   },
 
   -- Tools for Haskell
-  require "plugins.haskell-tools" {
-    "mrcjkb/haskell-tools.nvim",
-    version = "^3",
-    ft = { "haskell", "lhaskell", "cabal", "cabalproject" },
+  require 'plugins.haskell-tools' {
+    'mrcjkb/haskell-tools.nvim',
+    enabled = not vim.g.vscode,
+    version = '^3',
+    ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
     },
   },
 

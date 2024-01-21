@@ -1,5 +1,5 @@
-local U = require("utility")
-local autocmd = U.autocmd
+local utils = require 'config.utils'
+local autocmd = utils.autocmd
 local g, opt = vim.g, vim.opt
 
 
@@ -10,9 +10,9 @@ g.loaded_perl_provider = 0
 g.loaded_node_provider = 0
 
 -- General
-opt.clipboard = "unnamedplus" -- Use system clipboard
+opt.clipboard = 'unnamedplus' -- Use system clipboard
 opt.swapfile = false          -- Don't use swapfiles
-opt.completeopt = "menuone,noinsert,noselect" -- Completion behavior
+opt.completeopt = 'menuone,noinsert,noselect' -- Completion behavior
 opt.termguicolors = true
 
 -- Indentation
@@ -24,19 +24,19 @@ opt.expandtab = true          -- Use spaces instead of tabs
 -- Visual
 opt.number = true             -- Show current line number
 opt.relativenumber = true     -- Show relative line numbers
-opt.colorcolumn = "80"        -- Show soft char limit
+opt.colorcolumn = '80'        -- Show soft char limit
 opt.list = true               -- Show punctuation
 opt.listchars = {             -- Punctuation marks
-  trail           = "·",
-  nbsp            = "␣",
-  tab             = "⇥ ",
-  leadmultispace  = "│ ",
+  trail           = '·',
+  nbsp            = '␣',
+  tab             = '⇥ ',
+  leadmultispace  = '│ ',
 }
 
 -- Trailing whitespace
-autocmd "BufWritePre" {} (function()
-  if vim.bo.filetype == "markdown" then return end
-  vim.cmd([[%s/\s\+$//e]])
+autocmd 'BufWritePre' {} (function()
+  if vim.bo.filetype == 'markdown' then return end
+  vim.cmd [[%s/\s\+$//e]]
 end)
 
 -- Additional filetypes

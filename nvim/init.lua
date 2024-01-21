@@ -4,44 +4,23 @@ if vim.loader then
 end
 
 -- Setup default options
-require "options"
-require "keymaps"
+require 'config.options'
+require 'config.keymaps'
 
 -- Are we inside Neovide?
 if vim.g.neovide then
-  require "neovide"
+  require 'config.neovide'
 end
 
--- Are we outside VSCode?
-if not vim.g.vscode then
-  -- Bootstrap Lazy
-  local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-  if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({
-      "git",
-      "clone",
-      "--filter=blob:none",
-      "https://github.com/folke/lazy.nvim.git",
-      "--branch=stable",
-      lazypath,
-    })
-  end
-  vim.opt.rtp:prepend(lazypath)
+-- Try load package manager
+local ok, err = pcall(function()
+  require 'config.manager'
+end)
 
-  -- Load lazy
-  local ok, err = pcall(function()
-    local plugins = require "plugins"
-    local lazy    = require "lazy"
+if not ok and err then
+  vim.cmd 'colorscheme slate'
 
-    lazy.setup(plugins)
+  vim.schedule(function()
+    vim.notify(err, vim.log.levels.ERROR)
   end)
-
-  if not ok and err then
-    vim.cmd "colorscheme slate"
-
-    vim.schedule(function()
-      vim.notify(err, vim.log.levels.ERROR)
-    end)
-  end
 end
-

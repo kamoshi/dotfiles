@@ -1,5 +1,5 @@
-local U = require 'utility'
-local n = U.keymap 'n'
+local utils = require 'config.utils'
+local n = utils.keymap 'n'
 
 
 ---@param buffer number
@@ -24,7 +24,7 @@ local function on_attach(_, buffer, ht)
 end
 
 
-return U.as_extendable {
+return utils.as_extendable {
   init = function()
     vim.g.haskell_tools = {
       ---@type HaskellLspClientOpts`
