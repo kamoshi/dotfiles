@@ -1,3 +1,4 @@
+local is, when = require 'config.composer' ()
 local util = require 'config.utils'
 local n = util.keymap 'n'
 
@@ -8,7 +9,7 @@ return {
   -- Theme
   {
     'rebelot/kanagawa.nvim',
-    enabled  = not vim.g.vscode,
+    enabled  = is 'standalone',
     lazy     = false,
     priority = math.huge,
     config = function()
@@ -19,32 +20,38 @@ return {
   -- Status line
   {
     'nvim-lualine/lualine.nvim',
-    enabled = not vim.g.vscode,
+    enabled = is 'standalone',
     dependencies = {
       'nvim-tree/nvim-web-devicons',
     },
     config = function()
       local lualine = require 'lualine'
-      lualine.setup {}
+
+      lualine.setup {
+        tabline = {
+          lualine_a = { 'buffers' },
+        }
+      }
     end
   },
 
   -- Telescope
   {
     'nvim-telescope/telescope.nvim',
-    enabled = not vim.g.vscode,
+    enabled = is 'standalone',
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
+      when 'linux' { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
     },
     config = function()
       local telescope = require 'telescope'
       local builtin   = require 'telescope.builtin'
       local ext       = telescope.extensions
 
-      telescope.load_extension 'fzf'
-      telescope.load_extension 'notify'
+      if is 'linux'      then telescope.load_extension 'fzf' end
+      if is 'standalone' then telescope.load_extension 'notify' end
+
       telescope.setup {
         extensions = {
           fzf = {
@@ -60,7 +67,10 @@ return {
       n '<leader>fb' (builtin.buffers)    'Telescope: find buffers'
       n '<leader>fg' (builtin.live_grep)  'Telescope: grep content'
       n '<leader>fh' (builtin.help_tags)  'Telescope: search docs'
-      n '<leader>fn' (ext.notify.notify)  'Telescope: find notifications'
+
+      if is 'standalone' then
+        n '<leader>fn' (ext.notify.notify)  'Telescope: find notifications'
+      end
     end,
   },
 
@@ -80,7 +90,7 @@ return {
           -- neovim
           'vimdoc', 'lua', 'query',
           -- data
-          'json', 'xml', 'yaml', 'toml', 'dhall',
+          'json', 'xml', 'yaml', 'toml',
           -- markdown
           'markdown', 'markdown_inline',
           -- latex
@@ -91,8 +101,6 @@ return {
           'comment', 'dockerfile', 'regex',
           -- shell
           'bash',
-          -- julia
-          'julia',
           -- python
           'python',
           -- rust
@@ -100,7 +108,7 @@ return {
           -- webdev
           'html', 'css', 'scss', 'javascript', 'jsdoc', 'typescript', 'tsx', 'astro', 'svelte',
           -- haskell
-          'haskell', 'purescript', 'nix',
+          'haskell',
         },
         highlight = { enable = true },
         indent    = { enable = true },
@@ -126,11 +134,8 @@ return {
   -- Git signs
   {
     'lewis6991/gitsigns.nvim',
-    enabled = not vim.g.vscode,
-    config = function()
-      local gitsigns = require 'gitsigns'
-      gitsigns.setup()
-    end,
+    enabled = is 'standalone',
+    config = true,
   },
 
   -- Comments
@@ -142,7 +147,7 @@ return {
   -- Shortcut hints
   {
     'folke/which-key.nvim',
-    enabled = not vim.g.vscode,
+    enabled = is 'standalone',
     event = 'VeryLazy',
     init = function()
       vim.o.timeout = true
@@ -154,7 +159,7 @@ return {
   -- Notifications
   {
     'rcarriga/nvim-notify',
-    enabled = not vim.g.vscode,
+    enabled = is 'standalone',
     config = function()
       vim.notify = require 'notify'
     end
@@ -163,7 +168,7 @@ return {
   -- File tree
   {
     'nvim-neo-tree/neo-tree.nvim',
-    enabled = not vim.g.vscode,
+    enabled = is 'standalone',
     branch = 'v3.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -172,42 +177,14 @@ return {
     },
   },
 
-  -- Bufferline
-  {
-    'akinsho/bufferline.nvim',
-    enabled = not vim.g.vscode,
-    version = '*',
-    dependencies = {
-      'nvim-tree/nvim-web-devicons'
-    },
-    config = function()
-      local config = require 'bufferline'
-      config.setup()
-    end
-  },
-
   -- Git diffviewer
   {
     'sindrets/diffview.nvim',
-    enabled = not vim.g.vscode,
+    enabled = is 'standalone',
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-tree/nvim-web-devicons',
     },
-  },
-
-  -- LS configs
-  {
-    'neovim/nvim-lspconfig',
-    enabled = not vim.g.vscode,
-    opts = {
-      inlay_hints = { enabled = true },
-    },
-    config = function()
-      local lsp = require 'lspconfig'
-
-      lsp.nushell.setup {}
-    end,
   },
 
   -- Snippet engine
@@ -228,10 +205,16 @@ return {
     },
   },
 
+  -- LS configs
+  {
+    'neovim/nvim-lspconfig',
+    enabled = is { 'standalone', 'linux' },
+  },
+
   -- Debugger adapter support
   {
     'mfussenegger/nvim-dap',
-    enabled = not vim.g.vscode,
+    enabled = is { 'standalone', 'linux' },
     config = function()
       local dap = require 'dap'
 
@@ -242,7 +225,7 @@ return {
   -- Debugger UI
   require 'plugins.nvim-dap-ui' {
     'rcarriga/nvim-dap-ui',
-    enabled = not vim.g.vscode,
+    enabled = is { 'standalone', 'linux' },
     dependencies = {
       'mfussenegger/nvim-dap',
     },
@@ -251,17 +234,14 @@ return {
   -- Mason
   {
     'williamboman/mason.nvim',
-    enabled = not vim.g.vscode,
-    config = function()
-      local mason = require 'mason'
-      mason.setup()
-    end,
+    enabled = is { 'standalone', 'linux' },
+    config = true,
   },
 
   -- Automatic LSP server setup for Mason
   {
     'williamboman/mason-lspconfig.nvim',
-    enabled = not vim.g.vscode,
+    enabled = is { 'standalone', 'linux' },
     dependencies = {
       'williamboman/mason.nvim',
       'neovim/nvim-lspconfig',
@@ -309,7 +289,7 @@ return {
   -- Automatic debugger install
   {
     'jay-babu/mason-nvim-dap.nvim',
-    enabled = not vim.g.vscode,
+    enabled = is { 'standalone', 'linux' },
     dependencies = {
       'mfussenegger/nvim-dap',
       'williamboman/mason.nvim',
@@ -329,7 +309,7 @@ return {
   -- Tools for Neovim
   {
     'folke/neodev.nvim',
-    enabled = not vim.g.vscode,
+    enabled = is { 'standalone', 'linux' },
     ft = 'lua',
     dependencies = {
       'neovim/nvim-lspconfig',
@@ -350,7 +330,7 @@ return {
   -- Tools for Rust
   {
     'mrcjkb/rustaceanvim',
-    enabled = not vim.g.vscode,
+    enabled = is { 'standalone', 'linux' },
     version = '^3',
     ft = { 'rust' },
     init = function()
@@ -361,7 +341,7 @@ return {
   -- Tools for Haskell
   require 'plugins.haskell-tools' {
     'mrcjkb/haskell-tools.nvim',
-    enabled = not vim.g.vscode,
+    enabled = is { 'standalone', 'linux' },
     version = '^3',
     ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
     dependencies = {

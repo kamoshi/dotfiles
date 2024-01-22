@@ -16,7 +16,7 @@ end
 vim.opt.rtp:prepend(path)
 
 -- Load
-local plugins = require 'plugins'
+local plugins = require 'config.plugins'
 local lazy    = require 'lazy'
 
 -- Init
