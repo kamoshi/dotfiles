@@ -1,5 +1,5 @@
-local util = require 'config.utils'
-local n = util.keymap 'n'
+local H = require 'config.helpers'
+local n = H.keymap 'n'
 
 
 vim.g.rustaceanvim = function()

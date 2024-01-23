@@ -1,5 +1,3 @@
-local utils = require 'config.utils'
-local autocmd = utils.autocmd
 local g, opt = vim.g, vim.opt
 
 
@@ -17,11 +15,11 @@ opt.termguicolors = true
 
 -- Indentation
 opt.tabstop = 2               -- 1 tab = 2 spaces
-opt.smartindent = true        -- Autoindent new lines
 opt.shiftwidth = 2            -- Shift 2 spaces when tab
+opt.smartindent = true        -- Autoindent new lines
 opt.expandtab = true          -- Use spaces instead of tabs
 
--- Visual
+-- UI
 opt.number = true             -- Show current line number
 opt.relativenumber = true     -- Show relative line numbers
 opt.colorcolumn = '80'        -- Show soft char limit
@@ -33,12 +31,6 @@ opt.listchars = {             -- Punctuation marks
   leadmultispace  = '│ ',
 }
 
--- Trailing whitespace
-autocmd 'BufWritePre' {} (function()
-  if vim.bo.filetype == 'markdown' then return end
-  vim.cmd [[%s/\s\+$//e]]
-end)
-
 -- Additional filetypes
 vim.filetype.add {
   extension = {
@@ -48,4 +40,3 @@ vim.filetype.add {
     nu   = 'nu',
   }
 }
-

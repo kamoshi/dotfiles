@@ -1,7 +1,4 @@
-local M = {}
-
-
-function M.config()
+return function()
   local dap = require "dap"
   local dapui = require "dapui"
 
@@ -87,11 +84,4 @@ function M.config()
   -- dap.listeners.before.event_exited["dapui_config"] = function()
   --   dapui.close()
   -- end
-end
-
-
----@param config table
----@return table
-return function(config)
-  return vim.tbl_extend("keep", config, M)
 end

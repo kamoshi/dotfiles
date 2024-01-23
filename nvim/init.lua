@@ -6,6 +6,7 @@ end
 -- Setup default options
 require 'config.options'
 require 'config.keymaps'
+require 'config.autocmd'
 
 -- Are we inside Neovide?
 if vim.g.neovide then

@@ -1,8 +1,5 @@
-local M = {}
-
-
 -- Reference: https://github.com/hrsh7th/nvim-cmp#recommended-configuration
-function M.config()
+return function()
   local cmp = require "cmp"
 
   cmp.setup({
@@ -63,11 +60,4 @@ function M.config()
       { name = 'cmdline' }
     })
   })
-end
-
-
----@param config table
----@return table
-return function(config)
-  return vim.tbl_extend("keep", config, M)
 end

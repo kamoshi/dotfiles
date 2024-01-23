@@ -1,14 +1,16 @@
----@alias Tag
----  | 'standalone'
----  | 'linux'
+---Tags used for filtering certain features
+---@alias ComposerTag
+--- | 'standalone' # True if running as a standalone application
+--- | 'linux'      # True if running on Linux
 
----@type table<Tag, boolean>
+---@type table<ComposerTag, boolean>
 local env = {
   standalone = not vim.g.vscode,
   linux      = jit.os == 'Linux',
 }
 
----@param tags Tag | Tag[]
+---@param tags ComposerTag | ComposerTag[]
+---@return boolean
 local function is(tags)
   if type(tags) == 'string' then
     return env[tags] or false
@@ -19,17 +21,18 @@ local function is(tags)
       return false
     end
   end
+
   return true
 end
 
----@param tags Tag | Tag[]
+---@param tags ComposerTag | ComposerTag[]
 local function when(tags)
   local match = is(tags)
   ---@generic T
-  ---@param table `T`
+  ---@param value `T`
   ---@return T | nil
-  return function(table)
-    return match and table or nil
+  return function(value)
+    return match and value or nil
   end
 end
 

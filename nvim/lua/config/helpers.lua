@@ -18,7 +18,9 @@ function M.keymap(modes)
     return function(rhs)
       ---@param opts string|KeymapOpts
       return function(opts)
+        -- Either 'string' or 'table'
         local type = type(opts)
+        ---@type table
         local options
         if type == 'string' then
           options = vim.tbl_extend('force', defaults, {desc=opts})
@@ -33,49 +35,6 @@ function M.keymap(modes)
     end
   end
 end
-
-
----@class AugroupOpts
----@field [1] string Name
----@field clear? boolean Clear existing commands if the group already exists
-
----Wrapper around `vim.api.nvim_create_augroup`
----@param opts string|AugroupOpts
----@return number
-function M.augroup(opts)
-  local type = type(opts)
-  local name, options
-  if type == 'string' then
-    name, options = opts, {}
-  elseif type == 'table' then
-    name, options = opts[1], opts
-    options[1] = nil
-  end
-  return vim.api.nvim_create_augroup(name, options)
-end
-
-
----@class AutocmdOpts
----@field [1]? string Shorthand desc
----@field desc? string Description for this autocommand
----@field group? string|number
----@field callback? function
-
----Wrapper around `vim.api.nvim_create_autocmd`
----@param event string|string[]
-function M.autocmd(event)
-  ---@param opts AutocmdOpts
-  return function(opts)
-    opts.desc = opts[1] or opts.desc
-    opts[1] = nil
-    ---@param callback? function
-    return function(callback)
-      opts.callback = callback
-      vim.api.nvim_create_autocmd(event, opts)
-    end
-  end
-end
-
 
 ---@param config LazyPluginSpec
 function M.as_extendable(config)

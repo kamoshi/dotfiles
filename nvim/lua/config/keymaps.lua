@@ -1,6 +1,7 @@
-local utils = require 'config.utils'
-local map, augroup, autocmd = utils.keymap, utils.augroup, utils.autocmd
-local n, t, nv = map 'n', map 't', map {'n', 'v'}
+local H  = require 'config.helpers'
+local n  = H.keymap 'n'
+local t  = H.keymap 't'
+local nv = H.keymap {'n', 'v'}
 
 
 n '<leader>mn'  ':Explore ~/.config/nvim/<cr>' 'Meta: open Neovim config'
@@ -29,31 +30,39 @@ n ']d'          (vim.diagnostic.goto_next)  'Next diagnostic message'
 n '<leader>dl'  (vim.diagnostic.setloclist) 'Diagnostic: list messages'
 
 -- LSP
-autocmd 'LspAttach' {'LSP actions', group=augroup 'UserLspConfig'} (function(ev)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+do
+  local group = vim.api.nvim_create_augroup('UserLspConfig', {})
 
-  local function workspaces_list()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  local function setup_lsp_keymaps(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    local function workspaces_list()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end
+
+    local function format()
+      vim.lsp.buf.format({async = true})
+    end
+
+    local buffer = ev.buf
+    n  'K'          (vim.lsp.buf.hover)                     {'Show hover help', buffer}
+    n  'gD'         (vim.lsp.buf.declaration)               {'Go to declaration', buffer}
+    n  'gd'         (vim.lsp.buf.definition)                {'Go to definition', buffer}
+    n  'gi'         (vim.lsp.buf.implementation)            {'Go to implementation', buffer}
+    n  'gr'         (vim.lsp.buf.references)                {'Show references', buffer}
+    n  '<leader>D'  (vim.lsp.buf.type_definition)           {'Go to type definition', buffer}
+    n  '<C-k>'      (vim.lsp.buf.signature_help)            {'Signature help', buffer}
+    n  '<leader>wa' (vim.lsp.buf.add_workspace_folder)      {'Add workspace folder', buffer}
+    n  '<leader>wr' (vim.lsp.buf.remove_workspace_folder)   {'Remove workspace folder', buffer}
+    n  '<leader>wl' (workspaces_list)                       {'List workspace folders', buffer}
+    n  '<leader>lr' (vim.lsp.buf.rename)                    {'Rename identifier', buffer}
+    nv '<leader>la' (vim.lsp.buf.code_action)               {'Show code actions', buffer}
+    n  '<leader>lf' (format)                                {'Format file', buffer}
   end
 
-  local function format()
-    vim.lsp.buf.format({async = true})
-  end
-
-  local buffer = ev.buf
-  n  'K'          (vim.lsp.buf.hover)                     {'Show hover help', buffer}
-  n  'gD'         (vim.lsp.buf.declaration)               {'Go to declaration', buffer}
-  n  'gd'         (vim.lsp.buf.definition)                {'Go to definition', buffer}
-  n  'gi'         (vim.lsp.buf.implementation)            {'Go to implementation', buffer}
-  n  'gr'         (vim.lsp.buf.references)                {'Show references', buffer}
-  n  '<leader>D'  (vim.lsp.buf.type_definition)           {'Go to type definition', buffer}
-  n  '<C-k>'      (vim.lsp.buf.signature_help)            {'Signature help', buffer}
-  n  '<leader>wa' (vim.lsp.buf.add_workspace_folder)      {'Add workspace folder', buffer}
-  n  '<leader>wr' (vim.lsp.buf.remove_workspace_folder)   {'Remove workspace folder', buffer}
-  n  '<leader>wl' (workspaces_list)                       {'List workspace folders', buffer}
-  n  '<leader>lr' (vim.lsp.buf.rename)                    {'Rename identifier', buffer}
-  nv '<leader>la' (vim.lsp.buf.code_action)               {'Show code actions', buffer}
-  n  '<leader>lf' (format)                                {'Format file', buffer}
-end)
-
+  vim.api.nvim_create_autocmd('LspAttach', {
+    group    = group,
+    callback = setup_lsp_keymaps
+  })
+end

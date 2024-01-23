@@ -1,6 +1,6 @@
-local is, when = require 'config.composer' ()
-local util = require 'config.utils'
-local n = util.keymap 'n'
+local is, when = require 'config.compose' ()
+local H = require 'config.helpers'
+local n = H.keymap 'n'
 
 
 ---@type LazySpec
@@ -194,7 +194,7 @@ return {
   },
 
   -- Completion
-  require 'plugins.nvim-cmp' {
+  {
     'hrsh7th/nvim-cmp',
     dependencies = {
       'hrsh7th/cmp-cmdline',
@@ -203,6 +203,7 @@ return {
       'hrsh7th/cmp-nvim-lsp',
       'saadparwaiz1/cmp_luasnip',
     },
+    config = require 'config.plugins.nvim-cmp'
   },
 
   -- LS configs
@@ -223,12 +224,13 @@ return {
   },
 
   -- Debugger UI
-  require 'plugins.nvim-dap-ui' {
+  {
     'rcarriga/nvim-dap-ui',
     enabled = is { 'standalone', 'linux' },
     dependencies = {
       'mfussenegger/nvim-dap',
     },
+    config = require 'config.plugins.nvim-dap-ui'
   },
 
   -- Mason
@@ -334,12 +336,12 @@ return {
     version = '^3',
     ft = { 'rust' },
     init = function()
-      require 'plugins.rust-tools'
+      require 'config.plugins.rustaceanvim'
     end
   },
 
   -- Tools for Haskell
-  require 'plugins.haskell-tools' {
+  {
     'mrcjkb/haskell-tools.nvim',
     enabled = is { 'standalone', 'linux' },
     version = '^3',
@@ -348,6 +350,7 @@ return {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope.nvim',
     },
+    init = require 'config.plugins.haskell-tools'
   },
 
 }
