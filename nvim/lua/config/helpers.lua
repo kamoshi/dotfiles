@@ -1,7 +1,7 @@
 local M = {}
 
-local defaults = { noremap = true, silent = true }
 
+local defaults = { noremap = true, silent = true }
 
 ---@class KeymapOpts
 ---@field [1]? string Shorthand description
@@ -36,13 +36,5 @@ function M.keymap(modes)
   end
 end
 
----@param config LazyPluginSpec
-function M.as_extendable(config)
----@param base LazyPluginSpec
----@return LazyPluginSpec
-  return function(base)
-    return vim.tbl_extend('keep', base, config)
-  end
-end
 
 return M
