@@ -1,6 +1,6 @@
 local is, when = require 'config.compose' ()
-local H = require 'config.helpers'
-local n = H.keymap 'n'
+local map = require 'config.helpers.keymap'
+local n   = map 'n'
 
 
 ---@type LazySpec
@@ -63,13 +63,13 @@ return {
         }
       }
 
-      n '<leader>ff' (builtin.find_files) 'Telescope: find files'
-      n '<leader>fb' (builtin.buffers)    'Telescope: find buffers'
-      n '<leader>fg' (builtin.live_grep)  'Telescope: grep content'
-      n '<leader>fh' (builtin.help_tags)  'Telescope: search docs'
+      n '<leader>ff' (builtin.find_files) 'Telescope: files'
+      n '<leader>fb' (builtin.buffers)    'Telescope: buffers'
+      n '<leader>fg' (builtin.live_grep)  'Telescope: grep'
+      n '<leader>fh' (builtin.help_tags)  'Telescope: docs'
 
       if is 'standalone' then
-        n '<leader>fn' (ext.notify.notify)  'Telescope: find notifications'
+        n '<leader>fn' (ext.notify.notify)  'Telescope: notifications'
       end
     end,
   },
@@ -88,7 +88,7 @@ return {
         ignore_install   = {},
         ensure_installed = {
           -- neovim
-          'vimdoc', 'lua', 'query',
+          'vimdoc', 'lua', 'query', 'luadoc',
           -- data
           'json', 'xml', 'yaml', 'toml',
           -- markdown
@@ -131,11 +131,57 @@ return {
     end,
   },
 
-  -- Git signs
+  -- Git - file hunks
   {
     'lewis6991/gitsigns.nvim',
     enabled = is 'standalone',
-    config = true,
+    config = function()
+      local gs = require 'gitsigns'
+
+      gs.setup {
+        on_attach = function()
+          n '<Leader>hp' (gs.preview_hunk)    'Hunk: preview'
+          n '<Leader>hs' (gs.stage_hunk)      'Hunk: stage'
+          n '<Leader>hu' (gs.undo_stage_hunk) 'Hunk: unstage'
+          n '<Leader>hr' (gs.reset_hunk)      'Hunk: reset'
+          n '<leader>hS' (gs.stage_buffer)    'Hunk: buffer stage'
+          n '<leader>hR' (gs.reset_buffer)    'Hunk: buffer reset'
+          n '<leader>hd' (gs.toggle_deleted)  'Hunk: show deleted'
+        end
+      }
+    end,
+  },
+
+  -- Git - project diff
+  {
+    'sindrets/diffview.nvim',
+    enabled = is 'standalone',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      n '<Leader>gd' ':DiffviewOpen<CR>'        'Git: Diff'
+      n '<Leader>gc' ':DiffviewClose<CR>'       'Git: Close'
+      n '<Leader>gh' ':DiffviewFileHistory<CR>' 'Git: History'
+    end
+  },
+
+  -- Git: ops
+  {
+    'NeogitOrg/neogit',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'sindrets/diffview.nvim',
+      'nvim-telescope/telescope.nvim'
+    },
+    config = function()
+      local neogit = require 'neogit'
+
+      n '<Leader>gn' (neogit.open) 'Git: Neogit'
+
+      neogit.setup({})
+    end
   },
 
   -- Comments
@@ -174,16 +220,6 @@ return {
       'nvim-lua/plenary.nvim',
       'nvim-tree/nvim-web-devicons',
       'MunifTanjim/nui.nvim',
-    },
-  },
-
-  -- Git diffviewer
-  {
-    'sindrets/diffview.nvim',
-    enabled = is 'standalone',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-tree/nvim-web-devicons',
     },
   },
 

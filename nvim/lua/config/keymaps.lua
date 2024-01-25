@@ -1,7 +1,7 @@
-local H  = require 'config.helpers'
-local n  = H.keymap 'n'
-local t  = H.keymap 't'
-local nv = H.keymap {'n', 'v'}
+local map = require 'config.helpers.keymap'
+local n   = map 'n'
+local t   = map 't'
+local nv  = map {'n', 'v'}
 
 
 n '<leader>mn'  ':Explore ~/.config/nvim/<cr>' 'Meta: open Neovim config'
