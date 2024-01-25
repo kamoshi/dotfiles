@@ -67,6 +67,7 @@ return {
       n '<leader>fb' (builtin.buffers)    'Telescope: buffers'
       n '<leader>fg' (builtin.live_grep)  'Telescope: grep'
       n '<leader>fh' (builtin.help_tags)  'Telescope: docs'
+      n '<Leader>fk' (builtin.keymaps)    'Telescope: keymaps'
 
       if is 'standalone' then
         n '<leader>fn' (ext.notify.notify)  'Telescope: notifications'
@@ -170,6 +171,7 @@ return {
   -- Git: ops
   {
     'NeogitOrg/neogit',
+    enabled = is 'standalone',
     dependencies = {
       'nvim-lua/plenary.nvim',
       'sindrets/diffview.nvim',
@@ -178,9 +180,15 @@ return {
     config = function()
       local neogit = require 'neogit'
 
-      n '<Leader>gn' (neogit.open) 'Git: Neogit'
+      neogit.setup {
+        graph_style = 'unicode',
+        integrations = {
+          telescope = true,
+          diffview  = true,
+        }
+      }
 
-      neogit.setup({})
+      n '<Leader>gn' (neogit.open) 'Git: Neogit'
     end
   },
 
