@@ -162,9 +162,20 @@ return {
       'nvim-tree/nvim-web-devicons',
     },
     config = function()
-      n '<Leader>gd' ':DiffviewOpen<CR>'        'Git: Diff'
-      n '<Leader>gc' ':DiffviewClose<CR>'       'Git: Close'
-      n '<Leader>gh' ':DiffviewFileHistory<CR>' 'Git: History'
+      local lib = require 'diffview.lib'
+
+      local function toggle(name)
+        return function()
+          if not next(lib.views) then
+            vim.cmd(name)
+          else
+            vim.cmd 'DiffviewClose'
+          end
+        end
+      end
+
+      n '<Leader>gd' (toggle 'DiffviewOpen')        'Git: Diff'
+      n '<Leader>gh' (toggle 'DiffviewFileHistory') 'Git: History'
     end
   },
 
