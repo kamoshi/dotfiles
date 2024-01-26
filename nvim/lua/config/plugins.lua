@@ -274,7 +274,17 @@ return {
     config = function()
       local dap = require 'dap'
 
-      n '<leader>b' (dap.toggle_breakpoint) 'DAP: Toggle breakpoint'
+      local function cond_breakpoint()
+        local cond = vim.fn.input('Breakpoint condition: ')
+        dap.set_breakpoint(cond)
+      end
+
+      n '<F5>'      (dap.continue)          'Debugger: continue'
+      n '<F10>'     (dap.step_over)         'Debugger: step over'
+      n '<F11>'     (dap.step_into)         'Debugger: step into'
+      n '<F12>'     (dap.step_out)          'Debugger: step out'
+      n '<leader>b' (dap.toggle_breakpoint) 'Debugger: toggle berakpoint'
+      n '<leader>B' (cond_breakpoint)       'Debugger: toggle breakpoint (cond)'
     end,
   },
 

@@ -1,11 +1,11 @@
+local indent = require 'config.keymaps.indent'
 local map = require 'config.helpers.keymap'
 local n   = map 'n'
+local v   = map 'v'
 local t   = map 't'
 local nv  = map {'n', 'v'}
 
 
-n '<Leader>ex'  ':Explore<CR>'              'Netrw: open'
-n '<Leader>hl'  ':nohl<CR>'                 'Hide highlights'
 
 n 'j'           'gj'                        'Move: down by line'
 n 'k'           'gk'                        'Move: up by line'
@@ -22,26 +22,29 @@ n '<C-k>'       '<C-w>k'                    'Window: move up'
 n '<C-l>'       '<C-w>l'                    'Window: move right'
 
 
--- Diagnostics
+-- Indentation
+v '>'           '>gv'                       'Indent right'
+v '<'           '<gv'                       'Indent left'
+v '|'           (indent.normalize)          'Indent normalize'
 
-n '<leader>e'   (vim.diagnostic.open_float) 'Open error diagnostics'
-n '[d'          (vim.diagnostic.goto_prev)  'Previous diagnostic message'
-n ']d'          (vim.diagnostic.goto_next)  'Next diagnostic message'
-n '<leader>dl'  (vim.diagnostic.setloclist) 'Diagnostic: list messages'
+
+-- Diagnostics
+n '<leader>e'   (vim.diagnostic.open_float)     'Open error diagnostics'
+n '[d'          (vim.diagnostic.goto_prev)      'Previous diagnostic message'
+n ']d'          (vim.diagnostic.goto_next)      'Next diagnostic message'
+n '<leader>dl'  (vim.diagnostic.setloclist)     'Diagnostic: list messages'
 
 
 -- Meta
-
 local function open_config()
   vim.fn.chdir '~/.config/nvim'
-  vim.cmd [[:Explore]]
+  vim.cmd 'Explore'
 end
 
 n '<leader>mn' (open_config) 'Meta: neovim config'
 
 
 -- LSP
-
 do
   local group = vim.api.nvim_create_augroup('UserLspConfig', {})
 
