@@ -1,6 +1,7 @@
 local is, when = require 'config.compose' ()
 local map = require 'config.helpers.keymap'
 local n   = map 'n'
+local nv  = map { 'n', 'v' }
 
 
 ---@type LazySpec
@@ -271,31 +272,27 @@ return {
   {
     'mfussenegger/nvim-dap',
     enabled = is { 'standalone', 'linux' },
+    dependencies = {
+      'rcarriga/nvim-dap-ui',
+    },
     config = function()
       local dap = require 'dap'
+      local ui  = require 'dapui'
 
-      local function cond_breakpoint()
-        local cond = vim.fn.input('Breakpoint condition: ')
-        dap.set_breakpoint(cond)
-      end
+      n '<F5>'       (dap.continue)           'Debugger: continue'
+      n '<F10>'      (dap.step_over)          'Debugger: step over'
+      n '<F11>'      (dap.step_into)          'Debugger: step into'
+      n '<F12>'      (dap.step_out)           'Debugger: step out'
+      n '<leader>db' (dap.toggle_breakpoint)  'Debugger: toggle breakpoint'
 
-      n '<F5>'      (dap.continue)          'Debugger: continue'
-      n '<F10>'     (dap.step_over)         'Debugger: step over'
-      n '<F11>'     (dap.step_into)         'Debugger: step into'
-      n '<F12>'     (dap.step_out)          'Debugger: step out'
-      n '<leader>b' (dap.toggle_breakpoint) 'Debugger: toggle berakpoint'
-      n '<leader>B' (cond_breakpoint)       'Debugger: toggle breakpoint (cond)'
+      n  '<leader>du' (ui.toggle)             'Debugger: toggle UI'
+      nv '<leader>de' (ui.eval)               'Debugger: eval'
+
+      ui.setup()
+      dap.listeners.after.event_initialized["dapui_config"] = ui.open
+      dap.listeners.after.event_terminated["dapui_config"]  = ui.close
+      dap.listeners.before.event_exited["dapui_config"]     = ui.close
     end,
-  },
-
-  -- Debugger UI
-  {
-    'rcarriga/nvim-dap-ui',
-    enabled = is { 'standalone', 'linux' },
-    dependencies = {
-      'mfussenegger/nvim-dap',
-    },
-    config = require 'config.plugins.nvim-dap-ui'
   },
 
   -- Mason
@@ -368,6 +365,7 @@ return {
         automatic_installation = true,
         ensure_installed = {
           'codelldb',
+          --'js-debug-adapter',
         },
       }
     end,
@@ -418,4 +416,63 @@ return {
     init = require 'config.plugins.haskell-tools'
   },
 
+  -- JS debugger
+  {
+    'mxsdev/nvim-dap-vscode-js',
+    dependencies = {
+      'microsoft/vscode-js-debug',
+      version = '1.x',
+      build = 'npm i && npm run compile vsDebugServerBundle && mv dist out',
+    },
+    config = function()
+      local dap = require 'dap'
+      --local utils = require 'dap.utils'
+      local dap_js = require 'dap-vscode-js'
+      --local mason = require 'mason-registry'
+
+      ---@diagnostic disable-next-line: missing-fields
+      dap_js.setup {
+        -- debugger_path = mason.get_package('js-debug-adapter'):get_install_path(),
+        debugger_path = vim.fn.stdpath 'data' .. '/lazy/vscode-js-debug',
+        adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
+      }
+
+      local langs = { 'javascript', 'typescript', 'svelte', 'astro' }
+      for _, lang in ipairs(langs) do
+        dap.configurations[lang] = {
+          -- attach to a node process that has been started with
+          -- `--inspect` for longrunning tasks or `--inspect-brk` for short tasks
+          -- npm script -> `node --inspect-brk ./node_modules/.bin/vite dev`
+          {
+            -- use nvim-dap-vscode-js's pwa-node debug adapter
+            type = 'pwa-node',
+            -- attach to an already running node process with --inspect flag
+            -- default port: 9222
+            request = 'attach',
+            -- allows us to pick the process using a picker
+            processId = require('dap.utils').pick_process,
+            -- name of the debug action you have to select for this config
+            name = 'Attach debugger to existing `node --inspect` process',
+            -- for compiled languages like TypeScript or Svelte.js
+            sourceMaps = true,
+            -- resolve source maps in nested locations while ignoring node_modules
+            resolveSourceMapLocations = {
+              '${workspaceFolder}/**',
+              '!**/node_modules/**',
+            },
+            -- path to src in vite based projects (and most other projects as well)
+            cwd = '${workspaceFolder}',
+            -- we don't want to debug code inside node_modules, so skip it!
+            skipFiles = {
+              '${workspaceFolder}/node_modules/**/*.js',
+              '${workspaceFolder}/packages/**/node_modules/**/*.js',
+              '${workspaceFolder}/packages/**/**/node_modules/**/*.js',
+              '<node_internals>/**',
+              'node_modules/**',
+            },
+          },
+        }
+      end
+    end,
+  },
 }
