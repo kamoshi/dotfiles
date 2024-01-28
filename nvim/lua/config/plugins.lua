@@ -288,6 +288,16 @@ return {
       n  '<leader>du' (ui.toggle)             'Debugger: toggle UI'
       nv '<leader>de' (ui.eval)               'Debugger: eval'
 
+      -- vim.api.nvim_set_hl(0, 'DapBreakpoint', { ctermbg = 0, fg = '#993939', bg = '#31353f' })
+      -- vim.api.nvim_set_hl(0, 'DapLogPoint', { ctermbg = 0, fg = '#61afef', bg = '#31353f' })
+      -- vim.api.nvim_set_hl(0, 'DapStopped', { ctermbg = 0, fg = '#98c379', bg = '#31353f' })
+      --
+      -- vim.fn.sign_define('DapBreakpoint', { text='', texthl='DapBreakpoint', linehl='DapBreakpoint', numhl='DapBreakpoint' })
+      -- vim.fn.sign_define('DapBreakpointCondition', { text='ﳁ', texthl='DapBreakpoint', linehl='DapBreakpoint', numhl='DapBreakpoint' })
+      -- vim.fn.sign_define('DapBreakpointRejected', { text='', texthl='DapBreakpoint', linehl='DapBreakpoint', numhl= 'DapBreakpoint' })
+      -- vim.fn.sign_define('DapLogPoint', { text='', texthl='DapLogPoint', linehl='DapLogPoint', numhl= 'DapLogPoint' })
+      -- vim.fn.sign_define('DapStopped', { text='', texthl='DapStopped', linehl='DapStopped', numhl= 'DapStopped' })
+
       ui.setup()
       dap.listeners.after.event_initialized["dapui_config"] = ui.open
       dap.listeners.after.event_terminated["dapui_config"]  = ui.close
@@ -440,35 +450,22 @@ return {
       local langs = { 'javascript', 'typescript', 'svelte', 'astro' }
       for _, lang in ipairs(langs) do
         dap.configurations[lang] = {
-          -- attach to a node process that has been started with
-          -- `--inspect` for longrunning tasks or `--inspect-brk` for short tasks
-          -- npm script -> `node --inspect-brk ./node_modules/.bin/vite dev`
           {
-            -- use nvim-dap-vscode-js's pwa-node debug adapter
-            type = 'pwa-node',
-            -- attach to an already running node process with --inspect flag
-            -- default port: 9222
+            type    = 'pwa-node',
             request = 'attach',
-            -- allows us to pick the process using a picker
-            processId = require('dap.utils').pick_process,
-            -- name of the debug action you have to select for this config
-            name = 'Attach debugger to existing `node --inspect` process',
-            -- for compiled languages like TypeScript or Svelte.js
-            sourceMaps = true,
-            -- resolve source maps in nested locations while ignoring node_modules
-            resolveSourceMapLocations = {
-              '${workspaceFolder}/**',
-              '!**/node_modules/**',
-            },
-            -- path to src in vite based projects (and most other projects as well)
-            cwd = '${workspaceFolder}',
-            -- we don't want to debug code inside node_modules, so skip it!
+            name    = 'Attach debugger to existing `node --inspect` process',
+            cwd     = '${workspaceFolder}',
             skipFiles = {
               '${workspaceFolder}/node_modules/**/*.js',
               '${workspaceFolder}/packages/**/node_modules/**/*.js',
               '${workspaceFolder}/packages/**/**/node_modules/**/*.js',
               '<node_internals>/**',
               'node_modules/**',
+            },
+            sourceMaps = true,
+            resolveSourceMapLocations = {
+              '${workspaceFolder}/**',
+              '!**/node_modules/**',
             },
           },
         }
