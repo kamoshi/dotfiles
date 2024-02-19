@@ -42,6 +42,8 @@ local function open_config()
 end
 
 n '<leader>mn' (open_config) 'Meta: neovim config'
+n '<leader>ml' ':Lazy<CR>'   'Meta: lazy'
+n '<leader>mm' ':Mason<CR>'  'Meta: mason'
 
 
 -- LSP

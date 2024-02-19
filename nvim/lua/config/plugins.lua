@@ -90,7 +90,7 @@ return {
         ignore_install   = {},
         ensure_installed = {
           -- neovim
-          'vimdoc', 'lua', 'query', 'luadoc',
+          'vimdoc', 'lua', 'query',
           -- data
           'json', 'xml', 'yaml', 'toml',
           -- markdown
@@ -105,8 +105,8 @@ return {
           'bash',
           -- python
           'python',
-          -- rust
-          'rust',
+          -- systems
+          'rust', 'c',
           -- webdev
           'html', 'css', 'scss', 'javascript', 'jsdoc', 'typescript', 'tsx', 'astro', 'svelte',
           -- haskell
@@ -180,33 +180,26 @@ return {
     end
   },
 
-  -- Git: ops
   {
-    'NeogitOrg/neogit',
-    enabled = is 'standalone',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'sindrets/diffview.nvim',
-      'nvim-telescope/telescope.nvim'
-    },
+    dir = '~/Desktop/disasm.nvim',
+    ft = { 'c' },
     config = function()
-      local neogit = require 'neogit'
+      local disasm = require 'disasm'
 
-      neogit.setup {
-        graph_style = 'unicode',
-        integrations = {
-          telescope = true,
-          diffview  = true,
-        }
-      }
+      n '<Leader>a' ':Disassemble<CR>' 'Disassemble'
 
-      n '<Leader>gn' (neogit.open) 'Git: Neogit'
+      disasm.setup()
     end
   },
 
   -- Comments
   {
     'numToStr/Comment.nvim',
+    config = true,
+  },
+
+  {
+    'NvChad/nvim-colorizer.lua',
     config = true,
   },
 
@@ -334,17 +327,17 @@ return {
         ensure_installed = {
           'lua_ls',         -- Lua
           'rust_analyzer',  -- Rust
-          'bashls',         -- Bash
+          'clangd',         -- C
+          -- 'bashls',         -- Bash
           'html',           -- HTML
           'cssls',          -- CSS / SCSS
           'tsserver',       -- TypeScript
-          'astro',          -- Astro
+          -- 'astro',          -- Astro
           'svelte',         -- Svelte
-          'pyright',        -- Python
-          'rnix',           -- Nix
-          'purescriptls',   -- Purescript
-          'ltex',           -- Literate - LaTeX, Markdown, etc.
-          'julials',        -- Julia
+          -- 'pyright',        -- Python
+          -- 'rnix',           -- Nix
+          -- 'purescriptls',   -- Purescript
+          -- 'ltex',           -- Literate - LaTeX, Markdown, etc.
         },
       }
 
@@ -357,6 +350,18 @@ return {
         end,
         ['rust_analyzer'] = noop,
       }
+
+      local signs = {
+        Error = "",
+        Warn  = "",
+        Hint  = "",
+        Info  = "󰙎",
+      }
+
+      for sign, text in pairs(signs) do
+        local name = 'DiagnosticSign' .. sign
+        vim.fn.sign_define(name, { text = text, texthl = name })
+      end
     end,
   },
 
