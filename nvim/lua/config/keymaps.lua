@@ -34,6 +34,16 @@ n '[d'          (vim.diagnostic.goto_prev)      'Previous diagnostic message'
 n ']d'          (vim.diagnostic.goto_next)      'Next diagnostic message'
 n '<leader>dl'  (vim.diagnostic.setloclist)     'Diagnostic: list messages'
 
+-- X
+local function insert_date()
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local text = os.date '!%Y-%m-%dT%H:%M:%SZ' ---@cast text string
+  col = math.min(#vim.api.nvim_get_current_line(), col + 1)
+  vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, { text })
+end
+
+n '<Leader>xd' (insert_date) 'Execute: full date'
+
 
 -- Meta
 local function open_config()

@@ -80,6 +80,9 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects'
+    },
     config = function()
       local configs = require 'nvim-treesitter.configs'
 
@@ -123,6 +126,26 @@ return {
             node_decremental  = '<S-TAB>',
           },
         },
+        textobjects = {
+          select = {
+            enable = true,
+            keymaps = {
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['a?'] = '@conditional.outer',
+              ['i?'] = '@conditional.inner',
+            }
+          },
+          move = {
+            enable = true,
+            goto_next_start = {
+              [']f'] = '@function.outer',
+            },
+            goto_previous_start = {
+              ['[f'] = '@function.outer',
+            }
+          }
+        }
       }
     end,
     init = function()
@@ -186,7 +209,10 @@ return {
     config = function()
       local disasm = require 'disasm'
 
-      n '<Leader>a' ':Disassemble<CR>' 'Disassemble'
+      n '<Leader>a'  (disasm.disassemble)       'Disasm: Disassemble'
+      n '<Leader>Af' (disasm.disassemble_full)  'Disasm: Disassemble full'
+      n '<Leader>Ac' (disasm.reconfigure)       'Disasm: Configure'
+      n '<Leader>AC' (disasm.save_config)       'Disasm: Save config'
 
       disasm.setup()
     end
