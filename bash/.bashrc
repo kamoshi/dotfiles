@@ -34,16 +34,12 @@ export EDITOR="$(command -v nvim 2>/dev/null || command -v vim 2>/dev/null || co
 [ -x "$(command -v nvim 2> /dev/null)" ]    && alias vim='nvim'
 [ -x "$(command -v neovide 2> /dev/null)" ] && alias nvim='WINIT_X11_SCALE_FACTOR=1.0 neovide'
 
-# ghcup (Haskell)
+# Haskell
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 
 # NodeJS
-export npm_config_prefix="$HOME/.local"
+export npm_config_prefix="$HOME/.local" # This is where global packages are installed
 export PATH="$HOME/.local/bin:$PATH"
 
-# Bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Julia
-export PATH="$HOME/.juliaup/bin:$PATH"
+# Nix
+export PATH="$HOME/.nix-profile/bin:$PATH"
