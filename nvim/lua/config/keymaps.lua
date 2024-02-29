@@ -43,6 +43,7 @@ local function insert_date()
 end
 
 n '<Leader>xd' (insert_date) 'Execute: full date'
+v '<Leader>xs' ':sort<CR>'   'Execute: sort'
 
 
 -- Meta

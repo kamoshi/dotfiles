@@ -25,18 +25,10 @@ return {
     dependencies = {
       'nvim-tree/nvim-web-devicons',
     },
-    config = function()
-      local lualine = require 'lualine'
-
-      lualine.setup {
-        tabline = {
-          lualine_a = { 'buffers' },
-        }
-      }
-    end
+    config = true,
   },
 
-  -- Telescope
+  -- Fuzzy search
   {
     'nvim-telescope/telescope.nvim',
     enabled = is 'standalone',
@@ -120,10 +112,8 @@ return {
         incremental_selection = {
           enable = true,
           keymaps = {
-            init_selection    = '<CR>',
-            scope_incremental = '<CR>',
-            node_incremental  = '<TAB>',
-            node_decremental  = '<S-TAB>',
+            node_incremental  = 'v',
+            node_decremental  = 'V',
           },
         },
         textobjects = {
@@ -154,6 +144,32 @@ return {
       lang.register('markdown', 'mdx')
       lang.register('markdown', 'lhaskell')
     end,
+  },
+
+  -- Keymap hints
+  {
+    'folke/which-key.nvim',
+    enabled = is 'standalone',
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    config = true
+  },
+
+  -- Notifications
+  {
+    'rcarriga/nvim-notify',
+    enabled = is 'standalone',
+    config = function()
+      vim.notify = require 'notify'
+    end
+  },
+
+  -- Comments
+  {
+    'numToStr/Comment.nvim',
+    config = true,
   },
 
   -- Git - file hunks
@@ -203,64 +219,27 @@ return {
     end
   },
 
-  {
-    dir = '~/Desktop/disasm.nvim',
-    ft = { 'c' },
-    config = function()
-      local disasm = require 'disasm'
-
-      n '<Leader>a'  (disasm.disassemble)       'Disasm: Disassemble'
-      n '<Leader>Af' (disasm.disassemble_full)  'Disasm: Disassemble full'
-      n '<Leader>Ac' (disasm.reconfigure)       'Disasm: Configure'
-      n '<Leader>AC' (disasm.save_config)       'Disasm: Save config'
-
-      disasm.setup()
-    end
-  },
-
-  -- Comments
-  {
-    'numToStr/Comment.nvim',
-    config = true,
-  },
-
+  -- Color hints
   {
     'NvChad/nvim-colorizer.lua',
+    ft = { 'css', 'scss' },
     config = true,
   },
 
-  -- Shortcut hints
-  {
-    'folke/which-key.nvim',
-    enabled = is 'standalone',
-    event = 'VeryLazy',
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
-    end,
-    opts = {}
-  },
-
-  -- Notifications
-  {
-    'rcarriga/nvim-notify',
-    enabled = is 'standalone',
-    config = function()
-      vim.notify = require 'notify'
-    end
-  },
-
-  -- File tree
-  {
-    'nvim-neo-tree/neo-tree.nvim',
-    enabled = is 'standalone',
-    branch = 'v3.x',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-tree/nvim-web-devicons',
-      'MunifTanjim/nui.nvim',
-    },
-  },
+  -- {
+  --   dir = '~/Desktop/disasm.nvim',
+  --   ft = { 'c' },
+  --   config = function()
+  --     local disasm = require 'disasm'
+  --
+  --     n '<Leader>a'  (disasm.disassemble)       'Disasm: Disassemble'
+  --     n '<Leader>Af' (disasm.disassemble_full)  'Disasm: Disassemble full'
+  --     n '<Leader>Ac' (disasm.reconfigure)       'Disasm: Configure'
+  --     n '<Leader>AC' (disasm.save_config)       'Disasm: Save config'
+  --
+  --     disasm.setup()
+  --   end
+  -- },
 
   -- Snippet engine
   {
