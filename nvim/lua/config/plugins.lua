@@ -342,7 +342,7 @@ return {
           -- 'pyright',        -- Python
           -- 'rnix',           -- Nix
           -- 'purescriptls',   -- Purescript
-          -- 'ltex',           -- Literate - LaTeX, Markdown, etc.
+          'ltex',           -- Literate - LaTeX, Markdown, etc.
         },
       }
 

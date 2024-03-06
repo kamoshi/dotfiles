@@ -2,6 +2,7 @@ local options = {
   scroll_animation_far_lines = 100,
   scroll_animation_length    = 0.05,
   cursor_animation_length    = 0.05,
+  scale_factor               = 0.8,
 }
 
 for key, val in pairs(options) do
