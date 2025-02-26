@@ -1,0 +1,8 @@
+[user]
+	name = Maciej Jur
+	email = maciej@kamoshi.org
+	signingkey = 191CBFF5F72ECAFD
+[init]
+    defaultBranch = main
+[commit]
+	gpgsign = true
